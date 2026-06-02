@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title desc">
   <title id="title">SpeakVault social preview</title>
-  <desc id="desc">SpeakVault helps Chinese speakers build natural workplace English phrases for meetings, interviews, and presentations.</desc>
+  <desc id="desc">SpeakVault is a personal English study workspace for listening, shadowing, scenario cards, and a phrase vault.</desc>
   <defs>
     <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
       <stop offset="0" stop-color="#0f2723"/>
@@ -18,15 +18,15 @@
   <circle cx="152" cy="108" r="10" fill="#e9bf62"/>
   <circle cx="186" cy="108" r="10" fill="#73bfa8"/>
   <text x="234" y="118" fill="#f7f1ea" font-family="Inter, Arial, sans-serif" font-size="26" font-weight="800">SpeakVault</text>
-  <text x="116" y="223" fill="#31796f" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="900" letter-spacing="4">WORKPLACE ENGLISH FOR CHINESE SPEAKERS</text>
-  <text x="116" y="306" fill="#171b1a" font-family="Inter, Arial, sans-serif" font-size="72" font-weight="900">Build English phrases</text>
-  <text x="116" y="386" fill="#171b1a" font-family="Inter, Arial, sans-serif" font-size="72" font-weight="900">you can actually say.</text>
+  <text x="116" y="223" fill="#31796f" font-family="Inter, Arial, sans-serif" font-size="22" font-weight="900" letter-spacing="4">PERSONAL ENGLISH STUDY WORKSPACE</text>
+  <text x="116" y="306" fill="#171b1a" font-family="Inter, Arial, sans-serif" font-size="72" font-weight="900">Listen, shadow,</text>
+  <text x="116" y="386" fill="#171b1a" font-family="Inter, Arial, sans-serif" font-size="72" font-weight="900">and keep useful lines.</text>
   <rect x="760" y="220" width="310" height="96" rx="18" fill="#ffffff" stroke="#d9d2c8"/>
   <text x="792" y="260" fill="#a24f3f" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800">Chinese thought</text>
   <text x="792" y="296" fill="#171b1a" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800">我觉得可以先试一下。</text>
   <rect x="760" y="344" width="310" height="126" rx="18" fill="#102f2b"/>
-  <text x="792" y="386" fill="#86ded0" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800">Natural English</text>
+  <text x="792" y="386" fill="#86ded0" font-family="Inter, Arial, sans-serif" font-size="20" font-weight="800">Shadowing line</text>
   <text x="792" y="430" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800">I think it is worth</text>
   <text x="792" y="464" fill="#ffffff" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="800">testing first.</text>
-  <text x="116" y="492" fill="#5d6865" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="700">Meetings · Interviews · Presentations</text>
+  <text x="116" y="492" fill="#5d6865" font-family="Inter, Arial, sans-serif" font-size="30" font-weight="700">Scenario cards · Audio slots · Phrase vault</text>
 </svg>

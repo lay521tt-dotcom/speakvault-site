@@ -1,7 +1,7 @@
 {
   "name": "SpeakVault",
   "short_name": "SpeakVault",
-  "description": "Natural workplace English phrase practice for Chinese speakers.",
+  "description": "A personal English study workspace for listening, shadowing, scenario cards, and a phrase vault.",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#f7f4ef",

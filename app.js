@@ -76,6 +76,15 @@ function saveRecord() {
   localStorage.setItem(storageKey, JSON.stringify(record));
 }
 
+function escapeHtml(value) {
+  return String(value ?? "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
 function itemRecord() {
   if (!currentItem) return {};
   record[currentItem.id] ||= { dictation: {}, savedExpressions: [], reflection: "" };
@@ -127,7 +136,7 @@ function renderDictation(item) {
       (sentence, index) => `
         <label class="dictation-card">
           <span>Sentence ${index + 1}</span>
-          <textarea data-dictation-input="${sentence.id}" placeholder="Type what you hear before revealing the subtitle.">${saved[sentence.id] || ""}</textarea>
+          <textarea data-dictation-input="${escapeHtml(sentence.id)}" placeholder="Type what you hear before revealing the subtitle.">${escapeHtml(saved[sentence.id] || "")}</textarea>
         </label>
       `,
     )
@@ -150,9 +159,9 @@ function renderSubtitles(item) {
       (sentence, index) => `
         <details class="subtitle-card">
           <summary>Reveal sentence ${index + 1}</summary>
-          <p class="subtitle-english">${sentence.english}</p>
-          <p class="subtitle-chinese">${sentence.chinese}</p>
-          <p class="subtitle-note">${sentence.note}</p>
+          <p class="subtitle-english">${escapeHtml(sentence.english)}</p>
+          <p class="subtitle-chinese">${escapeHtml(sentence.chinese)}</p>
+          <p class="subtitle-note">${escapeHtml(sentence.note)}</p>
         </details>
       `,
     )
@@ -184,11 +193,11 @@ function renderExpressions(item) {
       const isSaved = expressionSaved(expression.text);
       return `
         <article class="expression-card">
-          <span>${expression.tag}</span>
-          <strong>${expression.text}</strong>
-          <p>${expression.meaning}</p>
-          <p>${expression.chinese}</p>
-          <button type="button" data-expression="${expression.text}">
+          <span>${escapeHtml(expression.tag)}</span>
+          <strong>${escapeHtml(expression.text)}</strong>
+          <p>${escapeHtml(expression.meaning)}</p>
+          <p>${escapeHtml(expression.chinese)}</p>
+          <button type="button" data-expression="${escapeHtml(expression.text)}">
             ${isSaved ? "Saved to vault" : "Save to vault"}
           </button>
         </article>
@@ -222,9 +231,9 @@ function renderVault() {
       (expression) => `
         <article>
           <span class="status saved">saved</span>
-          <strong>${expression.text}</strong>
-          <p>${expression.meaning}</p>
-          <p>${expression.chinese}</p>
+          <strong>${escapeHtml(expression.text)}</strong>
+          <p>${escapeHtml(expression.meaning)}</p>
+          <p>${escapeHtml(expression.chinese)}</p>
         </article>
       `,
     )

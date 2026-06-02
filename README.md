@@ -39,5 +39,6 @@ asset all return `200`.
 
 ## Product Boundary
 
-- Website: public positioning, product explanation, examples, practice paths, and early-access calls to action.
+- Website: concise product explanation, examples, practice paths, and a calm public reference for SpeakVault.
+- Tone: simple and elegant, with minimal commercial marketing and no early-access collection flow.
 - Not included in this website: login, Supabase sync, OpenAI calls, private user libraries, or authenticated app flows.

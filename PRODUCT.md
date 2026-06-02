@@ -2,78 +2,94 @@
 
 ## Product Shape
 
-SpeakVault is a personal English study workspace for a Chinese-speaking working adult living in a New Zealand/Australia context. It is not a public course platform or a marketing landing page in v1.
+SpeakVault is not a general language learning platform. It is a personal system for turning intensive listening into speakable workplace English.
 
 The product helps the learner:
 
-- turn Chinese thoughts into natural, speakable workplace English;
-- listen to and shadow useful lines;
-- understand cultural and pragmatic nuance;
-- keep a personal phrase vault of expressions worth practising.
+- practise one listening item deeply instead of browsing endless content;
+- write dictation sentence by sentence before seeing subtitles;
+- reveal English subtitles and Chinese explanations only when ready;
+- mine missed words, chunks, sentences, and cultural signals;
+- save useful expressions into a personal phrase vault;
+- shadow selected lines until they become speakable.
 
 ## Primary User
 
-The first user is the product owner: a working adult and overseas Chinese speaker preparing for:
+The first user is the product owner: a Chinese-speaking working adult in a New Zealand/Australia context who wants better listening and speaking for:
 
 - workplace meetings and status updates;
 - reporting, interviews, and job search conversations;
 - cross-cultural communication;
-- New Zealand and Australian work-life English.
+- real work-life English, not textbook English.
 
 ## MVP Scope
 
-V1 is a static, one-page study dashboard with:
+V1 is a static, one-page intensive listening workspace with:
 
-- today's listening and speaking focus;
-- curated scenario cards;
-- a shadowing practice panel;
-- a static phrase vault with practice status;
-- culture or usage notes attached to corpus items.
-- lightweight client-side scenario selection that updates the current focus, shadowing line, culture note, and vault phrases.
+- one seed listening item;
+- audio placeholder for a future file or source link;
+- sentence-level dictation textareas;
+- local browser saving for dictation notes, reflection, and phrase vault choices;
+- hidden sentence subtitles using expandable cards;
+- English subtitle, Chinese explanation, and listening note per sentence;
+- expression mining cards with save-to-vault buttons;
+- phrase vault populated from saved expressions;
+- a shadowing target line and reflection area.
 
-V1 does not include login, database sync, uploads, OpenAI calls, speech scoring, or persistent phrase saving.
+V1 does not include login, database sync, uploads, OpenAI calls, speech scoring, waveform editing, content licensing workflow, or multi-item library management.
 
 ## Practice Loop
 
 The learning loop is:
 
-1. Choose a scenario card.
-2. Read the Chinese thought and workplace context.
-3. Study the natural and polished English versions.
-4. Use the audio slot when a recording is available.
-5. Shadow the target line aloud.
-6. Review the culture note and phrase pattern.
-7. Keep useful lines in the static phrase vault.
+1. First listen without subtitles.
+2. Pause sentence by sentence and type what was heard.
+3. Reveal each subtitle only after dictation.
+4. Compare English, Chinese explanation, and listening note.
+5. Save useful expressions to the phrase vault.
+6. Shadow the target line aloud.
+7. Record reflection on what still feels hard to say.
 
-## Corpus Schema
+## Listening Item Schema
 
-Corpus items are scenario cards. Each item should use this shape before materials are imported:
+Listening items should use this shape before materials are imported:
 
 ```json
 {
-  "id": "meeting-status-risk",
-  "scenario": "Giving a careful status update",
-  "context": "Weekly team meeting, project timeline may shift.",
-  "chineseThought": "我想说明进度有点慢，但我不想显得不负责任。",
-  "naturalEnglish": "I wanted to give a quick update and be upfront about one thing that may take a little longer.",
-  "polishedEnglish": "I’d like to share where things stand and flag one timeline risk before it becomes an issue.",
-  "cultureNote": "“Be upfront” sounds honest without sounding defensive.",
-  "tags": ["meeting", "status update", "NZ/AU workplace"],
+  "id": "meeting-delay-update",
+  "title": "A calm update when the timeline may slip",
+  "level": "B2",
+  "format": "workplace monologue",
+  "accent": "NZ/AU workplace",
+  "duration": "01:15",
+  "sourceType": "original training material",
   "audioSrc": "",
-  "vaultPhrases": [
+  "summary": "A short project update that explains a delay without sounding defensive.",
+  "tags": ["meeting", "status update", "timeline", "soft tone"],
+  "sentences": [
     {
-      "text": "flag one area that may need more time",
-      "status": "ready",
-      "note": "Use for calm status updates and timeline risks."
+      "id": "s1",
+      "english": "I wanted to give a quick update on where things stand.",
+      "chinese": "我想快速说明一下目前的进展。",
+      "note": "A calm opening for a status update."
     }
-  ]
+  ],
+  "expressions": [
+    {
+      "text": "where things stand",
+      "meaning": "the current situation or current progress",
+      "chinese": "目前的情况 / 进展",
+      "tag": "status update"
+    }
+  ],
+  "shadowingLine": "I do not want to overstate the issue, but I think it is worth flagging early."
 }
 ```
 
 ## Content Principles
 
-- Keep UI in English, with Chinese used for thoughts, contrast, and context.
-- Prefer realistic workplace language over textbook phrasing.
-- Keep culture notes short and close to the phrase they explain.
-- Prioritise listening and speaking practice over reading volume.
-- Make the product feel like a quiet study desk, not a SaaS landing page.
+- Use user-owned or original training material first; external material requires clear rights boundaries.
+- Keep UI in English, with Chinese used for thoughts, explanations, and contrast.
+- Treat subtitles as a checking tool, not the first thing the learner sees.
+- Save only expressions worth reusing or shadowing, not every unknown word.
+- Keep the visual mood calm and Morandi-inspired: warm grey, fog blue, dusty mauve, blush, and soft purple.

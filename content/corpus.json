@@ -2,6 +2,8 @@
   {
     "id": "meeting-delay-update",
     "title": "A calm update when the timeline may slip",
+    "category": "Meeting",
+    "difficulty": "B2",
     "level": "B2",
     "format": "workplace monologue",
     "accent": "NZ/AU workplace",
@@ -9,25 +11,26 @@
     "sourceType": "original training material",
     "audioSrc": "",
     "summary": "A short project update that explains a delay without sounding defensive.",
+    "practiceFocus": "Softening bad news and proposing a timeline adjustment.",
     "tags": ["meeting", "status update", "timeline", "soft tone"],
     "sentences": [
       {
         "id": "s1",
         "english": "I wanted to give a quick update on where things stand.",
         "chinese": "我想快速说明一下目前的进展。",
-        "note": "A calm opening for a status update. \"Where things stand\" means the current situation."
+        "note": "\"Where things stand\" means the current situation."
       },
       {
         "id": "s2",
         "english": "Most of the work is moving in the right direction, but one part may need a bit more time.",
         "chinese": "大部分工作方向是对的，但其中一部分可能需要多一点时间。",
-        "note": "This softens the problem by placing it inside the wider progress."
+        "note": "This softens the problem by placing it inside wider progress."
       },
       {
         "id": "s3",
         "english": "I do not want to overstate the issue, but I think it is worth flagging early.",
         "chinese": "我不想把问题说得太严重，但我觉得值得早点提出来。",
-        "note": "\"Flagging early\" sounds proactive and professional in NZ/AU workplace English."
+        "note": "\"Flagging early\" sounds proactive in NZ/AU workplace English."
       },
       {
         "id": "s4",
@@ -37,30 +40,95 @@
       }
     ],
     "expressions": [
-      {
-        "text": "where things stand",
-        "meaning": "the current situation or current progress",
-        "chinese": "目前的情况 / 进展",
-        "tag": "status update"
-      },
-      {
-        "text": "worth flagging early",
-        "meaning": "important enough to mention before it becomes a bigger issue",
-        "chinese": "值得早点提出来",
-        "tag": "workplace nuance"
-      },
-      {
-        "text": "avoid rushing the final review",
-        "meaning": "prevent the final review from becoming hurried",
-        "chinese": "避免最终审核太赶",
-        "tag": "timeline"
-      }
+      { "text": "where things stand", "meaning": "the current situation or progress", "chinese": "目前的情况 / 进展", "tag": "status update" },
+      { "text": "worth flagging early", "meaning": "important enough to mention before it grows", "chinese": "值得早点提出来", "tag": "workplace nuance" },
+      { "text": "avoid rushing the final review", "meaning": "prevent the review from becoming hurried", "chinese": "避免最终审核太赶", "tag": "timeline" }
     ],
     "shadowingLine": "I do not want to overstate the issue, but I think it is worth flagging early."
   },
   {
+    "id": "meeting-clarify-action-owner",
+    "title": "Clarifying who owns the next step",
+    "category": "Meeting",
+    "difficulty": "B1",
+    "level": "B1",
+    "format": "meeting dialogue",
+    "accent": "neutral workplace",
+    "duration": "00:58",
+    "sourceType": "original training material",
+    "audioSrc": "",
+    "summary": "A simple meeting exchange that checks ownership without sounding pushy.",
+    "practiceFocus": "Asking for ownership, timing, and next steps.",
+    "tags": ["meeting", "ownership", "next steps", "clarity"],
+    "sentences": [
+      { "id": "s1", "english": "Before we move on, can I quickly check who is taking this forward?", "chinese": "在我们继续之前，我能快速确认一下谁来推进这件事吗？", "note": "\"Taking this forward\" means owning the next step." },
+      { "id": "s2", "english": "I am happy to draft the first version if that helps.", "chinese": "如果有帮助的话，我可以先起草第一版。", "note": "A practical way to offer help without overcommitting." },
+      { "id": "s3", "english": "Would Friday be a realistic time to share it back with the group?", "chinese": "周五把它再发回给大家，这个时间现实吗？", "note": "\"Realistic\" is softer than asking if something is possible." }
+    ],
+    "expressions": [
+      { "text": "take this forward", "meaning": "own and continue the work", "chinese": "推进这件事", "tag": "ownership" },
+      { "text": "if that helps", "meaning": "a soft way to offer support", "chinese": "如果有帮助的话", "tag": "soft offer" },
+      { "text": "a realistic time", "meaning": "a time that is practical and achievable", "chinese": "现实可行的时间", "tag": "timeline" }
+    ],
+    "shadowingLine": "Can I quickly check who is taking this forward?"
+  },
+  {
+    "id": "meeting-push-back-scope",
+    "title": "Pushing back when the scope grows",
+    "category": "Meeting",
+    "difficulty": "C1",
+    "level": "C1",
+    "format": "meeting monologue",
+    "accent": "NZ/AU workplace",
+    "duration": "01:18",
+    "sourceType": "original training material",
+    "audioSrc": "",
+    "summary": "A careful response when extra work is being added late.",
+    "practiceFocus": "Pushing back with reasons while keeping a collaborative tone.",
+    "tags": ["meeting", "scope", "pushback", "risk"],
+    "sentences": [
+      { "id": "s1", "english": "I understand why we would want to include that, but it may change the scope more than it first appears.", "chinese": "我理解为什么我们想把它包括进去，但它对范围的影响可能比一开始看起来更大。", "note": "Start with understanding before raising risk." },
+      { "id": "s2", "english": "My concern is that we would be adding a new workstream quite late in the process.", "chinese": "我担心的是，我们会在流程比较后期增加一条新的工作线。", "note": "\"My concern is\" is clear but not aggressive." },
+      { "id": "s3", "english": "Could we capture it as a follow-up item rather than folding it into this release?", "chinese": "我们能不能把它记录成后续事项，而不是并入这次发布？", "note": "Offers an alternative instead of simply saying no." }
+    ],
+    "expressions": [
+      { "text": "change the scope", "meaning": "increase or alter what the project includes", "chinese": "改变项目范围", "tag": "scope" },
+      { "text": "a new workstream", "meaning": "a separate stream of work", "chinese": "一条新的工作线", "tag": "project language" },
+      { "text": "folding it into this release", "meaning": "including it in the current release", "chinese": "并入这次发布", "tag": "release" }
+    ],
+    "shadowingLine": "It may change the scope more than it first appears."
+  },
+  {
+    "id": "meeting-summarise-decision",
+    "title": "Summarising a decision at the end of a meeting",
+    "category": "Meeting",
+    "difficulty": "B2",
+    "level": "B2",
+    "format": "meeting wrap-up",
+    "accent": "professional workplace",
+    "duration": "01:02",
+    "sourceType": "original training material",
+    "audioSrc": "",
+    "summary": "A meeting close that confirms the decision, owner, and next checkpoint.",
+    "practiceFocus": "Closing a meeting with clarity.",
+    "tags": ["meeting", "decision", "summary", "action items"],
+    "sentences": [
+      { "id": "s1", "english": "Just to summarise, we have agreed to keep the current approach for now.", "chinese": "简单总结一下，我们同意目前先保持现有方法。", "note": "\"For now\" leaves room for later changes." },
+      { "id": "s2", "english": "Mia will check the numbers, and I will update the notes by tomorrow morning.", "chinese": "Mia 会核对数字，我会在明早前更新记录。", "note": "Clear owner plus deadline." },
+      { "id": "s3", "english": "If anything changes, we will pick it up again in Thursday's check-in.", "chinese": "如果有变化，我们会在周四的同步会上再讨论。", "note": "\"Pick it up again\" means return to the topic." }
+    ],
+    "expressions": [
+      { "text": "just to summarise", "meaning": "a phrase for closing and confirming", "chinese": "简单总结一下", "tag": "meeting close" },
+      { "text": "for now", "meaning": "temporarily, until more information appears", "chinese": "目前先", "tag": "time nuance" },
+      { "text": "pick it up again", "meaning": "return to the topic later", "chinese": "之后再讨论", "tag": "follow-up" }
+    ],
+    "shadowingLine": "Just to summarise, we have agreed to keep the current approach for now."
+  },
+  {
     "id": "interview-strength-example",
     "title": "Answering a strength question without sounding rehearsed",
+    "category": "Interview",
+    "difficulty": "B2",
     "level": "B2",
     "format": "interview answer",
     "accent": "neutral professional",
@@ -68,105 +136,207 @@
     "sourceType": "original training material",
     "audioSrc": "",
     "summary": "A concise interview response that turns a personal strength into a workplace example.",
+    "practiceFocus": "Explaining a strength with evidence.",
     "tags": ["interview", "job search", "examples", "confident tone"],
     "sentences": [
-      {
-        "id": "s1",
-        "english": "One strength I would point to is that I tend to bring structure to unclear situations.",
-        "chinese": "我会提到的一个优势是，我通常能给不清晰的情况建立结构。",
-        "note": "\"I would point to\" sounds less stiff than \"my strength is\"."
-      },
-      {
-        "id": "s2",
-        "english": "For example, in my last role, I often helped turn broad requests into clear next steps.",
-        "chinese": "比如在上一份工作中，我经常帮助把宽泛的需求转成清晰的下一步。",
-        "note": "\"Broad requests\" is a useful workplace chunk for vague tasks."
-      },
-      {
-        "id": "s3",
-        "english": "I find that people work better when the goal, owner, and timeline are easy to see.",
-        "chinese": "我发现当目标、负责人和时间线清晰时，大家会协作得更好。",
-        "note": "This sentence shows judgement, not just a personal trait."
-      }
+      { "id": "s1", "english": "One strength I would point to is that I tend to bring structure to unclear situations.", "chinese": "我会提到的一个优势是，我通常能给不清晰的情况建立结构。", "note": "\"I would point to\" sounds less stiff than \"my strength is\"." },
+      { "id": "s2", "english": "For example, in my last role, I often helped turn broad requests into clear next steps.", "chinese": "比如在上一份工作中，我经常帮助把宽泛的需求转成清晰的下一步。", "note": "\"Broad requests\" is a useful workplace chunk for vague tasks." },
+      { "id": "s3", "english": "I find that people work better when the goal, owner, and timeline are easy to see.", "chinese": "我发现当目标、负责人和时间线清晰时，大家会协作得更好。", "note": "This sentence shows judgement, not just a trait." }
     ],
     "expressions": [
-      {
-        "text": "bring structure to unclear situations",
-        "meaning": "make vague work clearer and easier to act on",
-        "chinese": "给不清晰的情况建立结构",
-        "tag": "interview strength"
-      },
-      {
-        "text": "turn broad requests into clear next steps",
-        "meaning": "convert vague requests into concrete actions",
-        "chinese": "把宽泛需求转成清晰下一步",
-        "tag": "work examples"
-      },
-      {
-        "text": "the goal, owner, and timeline",
-        "meaning": "three practical pieces that make work accountable",
-        "chinese": "目标、负责人和时间线",
-        "tag": "project language"
-      }
+      { "text": "bring structure to unclear situations", "meaning": "make vague work clearer", "chinese": "给不清晰的情况建立结构", "tag": "interview strength" },
+      { "text": "turn broad requests into clear next steps", "meaning": "make vague requests actionable", "chinese": "把宽泛需求转成清晰下一步", "tag": "work examples" },
+      { "text": "the goal, owner, and timeline", "meaning": "three practical pieces that make work accountable", "chinese": "目标、负责人和时间线", "tag": "project language" }
     ],
     "shadowingLine": "I tend to bring structure to unclear situations."
   },
   {
-    "id": "cross-cultural-soft-disagreement",
-    "title": "Disagreeing gently in a team discussion",
-    "level": "C1",
-    "format": "meeting dialogue",
-    "accent": "NZ/AU workplace",
-    "duration": "01:20",
+    "id": "interview-why-this-role",
+    "title": "Why this role feels like the right next step",
+    "category": "Interview",
+    "difficulty": "B2",
+    "level": "B2",
+    "format": "interview answer",
+    "accent": "neutral professional",
+    "duration": "01:08",
     "sourceType": "original training material",
     "audioSrc": "",
-    "summary": "A soft disagreement that keeps the conversation collaborative.",
-    "tags": ["meeting", "cross-cultural", "disagreement", "politeness"],
+    "summary": "A focused answer for explaining motivation without sounding generic.",
+    "practiceFocus": "Connecting personal direction with company needs.",
+    "tags": ["interview", "motivation", "career", "job search"],
     "sentences": [
-      {
-        "id": "s1",
-        "english": "I can see the logic behind that approach.",
-        "chinese": "我能理解这个方法背后的逻辑。",
-        "note": "Acknowledge the other person before disagreeing."
-      },
-      {
-        "id": "s2",
-        "english": "My only hesitation is whether it gives us enough room to test the idea properly.",
-        "chinese": "我唯一有点犹豫的是，它是否给了我们足够空间来充分测试这个想法。",
-        "note": "\"My only hesitation\" is softer than \"I disagree\"."
-      },
-      {
-        "id": "s3",
-        "english": "Would it be worth starting with a smaller pilot before we commit fully?",
-        "chinese": "在完全投入之前，是否值得先做一个小规模试点？",
-        "note": "A question form invites discussion and lowers defensiveness."
-      }
+      { "id": "s1", "english": "What interests me about this role is the mix of problem solving and stakeholder communication.", "chinese": "这个职位吸引我的地方是它结合了解决问题和利益相关方沟通。", "note": "\"What interests me\" is direct and natural." },
+      { "id": "s2", "english": "I am looking for a role where I can be close to the work, but also help make decisions clearer for others.", "chinese": "我在找一个既能接近实际工作，又能帮助别人把决策变清晰的职位。", "note": "This explains what kind of work environment you want." },
+      { "id": "s3", "english": "From what I have read, that seems to be a big part of how this team operates.", "chinese": "从我了解到的信息看，这似乎正是这个团队运作方式中的重要部分。", "note": "Shows research without overclaiming." }
     ],
     "expressions": [
-      {
-        "text": "I can see the logic behind that",
-        "meaning": "I understand why this makes sense",
-        "chinese": "我能理解这个思路",
-        "tag": "soft opening"
-      },
-      {
-        "text": "my only hesitation is",
-        "meaning": "a polite way to introduce a concern",
-        "chinese": "我唯一有点犹豫的是",
-        "tag": "polite concern"
-      },
-      {
-        "text": "before we commit fully",
-        "meaning": "before we make a full decision or investment",
-        "chinese": "在我们完全投入之前",
-        "tag": "decision making"
-      }
+      { "text": "the mix of problem solving and stakeholder communication", "meaning": "two parts of the role that appeal to you", "chinese": "解决问题和利益相关方沟通的结合", "tag": "motivation" },
+      { "text": "close to the work", "meaning": "connected to practical, day-to-day details", "chinese": "接近实际工作", "tag": "career fit" },
+      { "text": "how this team operates", "meaning": "the way this team works", "chinese": "这个团队的运作方式", "tag": "company research" }
     ],
-    "shadowingLine": "My only hesitation is whether it gives us enough room to test the idea properly."
+    "shadowingLine": "I am looking for a role where I can be close to the work."
+  },
+  {
+    "id": "interview-handling-mistake",
+    "title": "Talking about a mistake maturely",
+    "category": "Interview",
+    "difficulty": "C1",
+    "level": "C1",
+    "format": "interview answer",
+    "accent": "neutral professional",
+    "duration": "01:22",
+    "sourceType": "original training material",
+    "audioSrc": "",
+    "summary": "A behavioural answer that owns a mistake and explains what changed afterwards.",
+    "practiceFocus": "Owning mistakes without damaging credibility.",
+    "tags": ["interview", "behavioural", "mistake", "reflection"],
+    "sentences": [
+      { "id": "s1", "english": "Earlier in my career, I underestimated how much context a stakeholder needed before approving a change.", "chinese": "在职业早期，我低估了利益相关方在批准变更前需要多少背景信息。", "note": "\"Earlier in my career\" creates distance without avoiding responsibility." },
+      { "id": "s2", "english": "The decision was delayed because I had answered the technical question but not the business concern behind it.", "chinese": "决策被延迟了，因为我回答了技术问题，却没有回应其背后的业务顾虑。", "note": "A mature explanation distinguishes surface issue and real concern." },
+      { "id": "s3", "english": "Since then, I have made a point of checking what decision people are trying to make, not just what question they are asking.", "chinese": "从那以后，我会特意确认大家想做什么决策，而不仅仅是他们在问什么问题。", "note": "\"Made a point of\" means deliberately made it a habit." }
+    ],
+    "expressions": [
+      { "text": "underestimated how much context", "meaning": "did not realise enough background was needed", "chinese": "低估了需要多少背景信息", "tag": "reflection" },
+      { "text": "the business concern behind it", "meaning": "the underlying business worry", "chinese": "背后的业务顾虑", "tag": "stakeholders" },
+      { "text": "made a point of checking", "meaning": "deliberately made a habit of checking", "chinese": "特意养成确认的习惯", "tag": "improvement" }
+    ],
+    "shadowingLine": "I answered the technical question but not the business concern behind it."
+  },
+  {
+    "id": "interview-salary-expectation",
+    "title": "Discussing salary expectations carefully",
+    "category": "Interview",
+    "difficulty": "B2",
+    "level": "B2",
+    "format": "interview dialogue",
+    "accent": "NZ/AU workplace",
+    "duration": "01:00",
+    "sourceType": "original training material",
+    "audioSrc": "",
+    "summary": "A polite way to discuss salary range without sounding fixed too early.",
+    "practiceFocus": "Keeping compensation discussion professional.",
+    "tags": ["interview", "salary", "negotiation", "soft tone"],
+    "sentences": [
+      { "id": "s1", "english": "I am still learning more about the scope of the role, so I would prefer to think in terms of a range.", "chinese": "我还在进一步了解这个职位的范围，所以我更倾向于以范围来考虑。", "note": "This avoids locking into a number too early." },
+      { "id": "s2", "english": "Based on the market and my experience, I would be looking somewhere in the mid to high range for this level.", "chinese": "基于市场情况和我的经验，这个级别我会考虑中高区间。", "note": "\"Somewhere in\" leaves room to discuss." },
+      { "id": "s3", "english": "I am open to discussing the full package once we know there is a strong fit.", "chinese": "如果双方匹配度高，我也愿意讨论整体待遇包。", "note": "\"Full package\" includes salary, benefits, leave, flexibility." }
+    ],
+    "expressions": [
+      { "text": "in terms of a range", "meaning": "thinking with a salary range, not one number", "chinese": "以范围来考虑", "tag": "salary" },
+      { "text": "somewhere in the mid to high range", "meaning": "around the middle-to-upper part of the range", "chinese": "中高区间", "tag": "negotiation" },
+      { "text": "the full package", "meaning": "salary plus benefits and conditions", "chinese": "整体待遇包", "tag": "compensation" }
+    ],
+    "shadowingLine": "I would prefer to think in terms of a range."
+  },
+  {
+    "id": "presentation-transition",
+    "title": "Moving from context to recommendation",
+    "category": "Presentation",
+    "difficulty": "B2",
+    "level": "B2",
+    "format": "presentation excerpt",
+    "accent": "professional presentation",
+    "duration": "01:10",
+    "sourceType": "original training material",
+    "audioSrc": "",
+    "summary": "A presentation transition that connects background information to a recommendation.",
+    "practiceFocus": "Moving from context to action.",
+    "tags": ["presentation", "recommendation", "structure", "speaking"],
+    "sentences": [
+      { "id": "s1", "english": "So that gives us the background, but the main question is what we do next.", "chinese": "这就是背景情况，但主要问题是接下来我们该怎么做。", "note": "This helps listeners move from context to action." },
+      { "id": "s2", "english": "Based on what we have seen so far, I would recommend a staged rollout.", "chinese": "基于目前看到的情况，我建议分阶段推出。", "note": "\"Based on what we have seen so far\" keeps the recommendation grounded." },
+      { "id": "s3", "english": "That would let us test demand while keeping the operational risk manageable.", "chinese": "这样可以让我们测试需求，同时把运营风险控制在可管理范围内。", "note": "Explains the business reason behind the recommendation." }
+    ],
+    "expressions": [
+      { "text": "what we do next", "meaning": "the next decision or action", "chinese": "接下来怎么做", "tag": "transition" },
+      { "text": "a staged rollout", "meaning": "launching something in phases", "chinese": "分阶段推出", "tag": "business strategy" },
+      { "text": "keeping the operational risk manageable", "meaning": "keeping risk under control", "chinese": "把运营风险控制在可管理范围内", "tag": "risk language" }
+    ],
+    "shadowingLine": "I would recommend a staged rollout."
+  },
+  {
+    "id": "presentation-handle-question",
+    "title": "Handling a question you cannot fully answer yet",
+    "category": "Presentation",
+    "difficulty": "B2",
+    "level": "B2",
+    "format": "presentation Q&A",
+    "accent": "professional presentation",
+    "duration": "01:04",
+    "sourceType": "original training material",
+    "audioSrc": "",
+    "summary": "A calm response when you need to follow up after a presentation question.",
+    "practiceFocus": "Answering honestly while staying credible.",
+    "tags": ["presentation", "Q&A", "follow-up", "confidence"],
+    "sentences": [
+      { "id": "s1", "english": "That is a good question, and I do not want to give you a rough answer without checking the detail.", "chinese": "这是个好问题，我不想在没有核对细节的情况下给你一个粗略答案。", "note": "This avoids guessing and protects credibility." },
+      { "id": "s2", "english": "What I can say at this point is that the trend is moving in the right direction.", "chinese": "我现在可以说的是，趋势正在朝正确方向发展。", "note": "\"At this point\" signals a partial answer." },
+      { "id": "s3", "english": "I will confirm the exact number and come back to you after the session.", "chinese": "我会确认准确数字，并在会后回复你。", "note": "A clear follow-up promise." }
+    ],
+    "expressions": [
+      { "text": "a rough answer", "meaning": "an approximate answer that may not be accurate", "chinese": "粗略答案", "tag": "Q&A" },
+      { "text": "at this point", "meaning": "with the information available now", "chinese": "目前 / 现在这个阶段", "tag": "scope" },
+      { "text": "come back to you", "meaning": "reply later with information", "chinese": "之后回复你", "tag": "follow-up" }
+    ],
+    "shadowingLine": "I do not want to give you a rough answer without checking the detail."
+  },
+  {
+    "id": "presentation-explain-chart",
+    "title": "Explaining what a chart actually means",
+    "category": "Presentation",
+    "difficulty": "B1",
+    "level": "B1",
+    "format": "presentation excerpt",
+    "accent": "neutral professional",
+    "duration": "00:56",
+    "sourceType": "original training material",
+    "audioSrc": "",
+    "summary": "A simple chart explanation that avoids reading every number.",
+    "practiceFocus": "Describing trend and implication.",
+    "tags": ["presentation", "chart", "trend", "data"],
+    "sentences": [
+      { "id": "s1", "english": "The main thing to notice here is the steady increase from March onwards.", "chinese": "这里最主要要注意的是，从三月开始的稳定增长。", "note": "\"The main thing to notice\" guides the listener." },
+      { "id": "s2", "english": "There are a few small dips, but the overall direction is still positive.", "chinese": "中间有几次小幅下降，但整体方向仍然是积极的。", "note": "\"Dips\" means small decreases." },
+      { "id": "s3", "english": "For us, that suggests the change is starting to have an effect.", "chinese": "对我们来说，这说明这个变化开始产生效果。", "note": "Move from data to meaning." }
+    ],
+    "expressions": [
+      { "text": "the main thing to notice", "meaning": "the key point to pay attention to", "chinese": "最主要要注意的是", "tag": "chart" },
+      { "text": "small dips", "meaning": "small decreases", "chinese": "小幅下降", "tag": "data" },
+      { "text": "starting to have an effect", "meaning": "beginning to make a difference", "chinese": "开始产生效果", "tag": "impact" }
+    ],
+    "shadowingLine": "The overall direction is still positive."
+  },
+  {
+    "id": "presentation-close-with-ask",
+    "title": "Closing a presentation with a clear ask",
+    "category": "Presentation",
+    "difficulty": "C1",
+    "level": "C1",
+    "format": "presentation close",
+    "accent": "professional presentation",
+    "duration": "01:12",
+    "sourceType": "original training material",
+    "audioSrc": "",
+    "summary": "A closing paragraph that turns a recommendation into a decision request.",
+    "practiceFocus": "Ending with clarity and confidence.",
+    "tags": ["presentation", "decision", "ask", "executive tone"],
+    "sentences": [
+      { "id": "s1", "english": "To wrap up, the recommendation is to proceed with the pilot for one quarter.", "chinese": "最后总结一下，建议是推进一个季度的试点。", "note": "\"To wrap up\" signals the close." },
+      { "id": "s2", "english": "The investment is modest, and the learning value is high enough to justify it.", "chinese": "投入不算大，而学习价值足够高，可以证明它是值得的。", "note": "\"Justify it\" means make it worth doing." },
+      { "id": "s3", "english": "What we need today is agreement on the pilot scope and the success measures.", "chinese": "我们今天需要的是就试点范围和成功衡量标准达成一致。", "note": "A clear ask helps the audience decide." }
+    ],
+    "expressions": [
+      { "text": "proceed with the pilot", "meaning": "go ahead with the trial", "chinese": "推进试点", "tag": "decision" },
+      { "text": "justify it", "meaning": "make it worth the cost or effort", "chinese": "证明它值得", "tag": "business case" },
+      { "text": "success measures", "meaning": "ways to judge whether something worked", "chinese": "成功衡量标准", "tag": "metrics" }
+    ],
+    "shadowingLine": "What we need today is agreement on the pilot scope and the success measures."
   },
   {
     "id": "nz-workplace-small-talk",
     "title": "Monday small talk before work starts",
+    "category": "NZ/AU Life",
+    "difficulty": "B1",
     "level": "B1",
     "format": "casual workplace dialogue",
     "accent": "New Zealand workplace",
@@ -174,100 +344,200 @@
     "sourceType": "original training material",
     "audioSrc": "",
     "summary": "A short office exchange that sounds friendly without oversharing.",
+    "practiceFocus": "Low-key workplace small talk.",
     "tags": ["NZ living", "small talk", "workplace", "casual tone"],
     "sentences": [
-      {
-        "id": "s1",
-        "english": "How was your weekend? Did you get up to much?",
-        "chinese": "你周末怎么样？有做什么特别的事吗？",
-        "note": "\"Get up to much\" is common in NZ/AU casual English."
-      },
-      {
-        "id": "s2",
-        "english": "Nothing too exciting, just caught up on a few things at home.",
-        "chinese": "没什么特别的，就是在家处理了一些事情。",
-        "note": "A natural low-key answer when you do not want to share details."
-      },
-      {
-        "id": "s3",
-        "english": "That sounds like the kind of weekend you sometimes need.",
-        "chinese": "听起来就是那种有时候很需要的周末。",
-        "note": "A warm response that keeps the exchange light."
-      }
+      { "id": "s1", "english": "How was your weekend? Did you get up to much?", "chinese": "你周末怎么样？有做什么特别的事吗？", "note": "\"Get up to much\" is common in NZ/AU casual English." },
+      { "id": "s2", "english": "Nothing too exciting, just caught up on a few things at home.", "chinese": "没什么特别的，就是在家处理了一些事情。", "note": "A natural low-key answer when you do not want to share details." },
+      { "id": "s3", "english": "That sounds like the kind of weekend you sometimes need.", "chinese": "听起来就是那种有时候很需要的周末。", "note": "A warm response that keeps the exchange light." }
     ],
     "expressions": [
-      {
-        "text": "get up to much",
-        "meaning": "do anything interesting or notable",
-        "chinese": "做什么特别的事",
-        "tag": "NZ/AU casual"
-      },
-      {
-        "text": "caught up on a few things",
-        "meaning": "finished small tasks that had been waiting",
-        "chinese": "补做/处理了一些事情",
-        "tag": "daily life"
-      },
-      {
-        "text": "the kind of weekend you sometimes need",
-        "meaning": "a quiet weekend that helps you reset",
-        "chinese": "有时候正需要的那种周末",
-        "tag": "warm response"
-      }
+      { "text": "get up to much", "meaning": "do anything interesting", "chinese": "做什么特别的事", "tag": "NZ/AU casual" },
+      { "text": "caught up on a few things", "meaning": "finished small delayed tasks", "chinese": "补做/处理了一些事情", "tag": "daily life" },
+      { "text": "the kind of weekend you sometimes need", "meaning": "a quiet weekend that helps you reset", "chinese": "有时候正需要的那种周末", "tag": "warm response" }
     ],
     "shadowingLine": "Nothing too exciting, just caught up on a few things at home."
   },
   {
-    "id": "presentation-transition",
-    "title": "Moving from context to recommendation",
-    "level": "B2",
-    "format": "presentation excerpt",
-    "accent": "professional presentation",
-    "duration": "01:10",
+    "id": "nz-renting-inspection",
+    "title": "Asking about a rental inspection",
+    "category": "NZ/AU Life",
+    "difficulty": "B1",
+    "level": "B1",
+    "format": "phone message",
+    "accent": "New Zealand living",
+    "duration": "00:52",
     "sourceType": "original training material",
     "audioSrc": "",
-    "summary": "A presentation transition that connects background information to a clear recommendation.",
-    "tags": ["presentation", "recommendation", "structure", "speaking"],
+    "summary": "A polite message to confirm a property viewing time.",
+    "practiceFocus": "Everyday admin English.",
+    "tags": ["NZ living", "renting", "phone message", "polite request"],
     "sentences": [
-      {
-        "id": "s1",
-        "english": "So that gives us the background, but the main question is what we do next.",
-        "chinese": "这就是背景情况，但主要问题是接下来我们该怎么做。",
-        "note": "This transition helps listeners move from context to action."
-      },
-      {
-        "id": "s2",
-        "english": "Based on what we have seen so far, I would recommend a staged rollout.",
-        "chinese": "基于目前看到的情况，我建议分阶段推出。",
-        "note": "\"Based on what we have seen so far\" keeps the recommendation grounded."
-      },
-      {
-        "id": "s3",
-        "english": "That would let us test demand while keeping the operational risk manageable.",
-        "chinese": "这样可以让我们测试需求，同时把运营风险控制在可管理范围内。",
-        "note": "This sentence explains the business reason behind the recommendation."
-      }
+      { "id": "s1", "english": "Hi, I am calling about the viewing for the flat on King Street.", "chinese": "你好，我打电话是想问 King Street 那套公寓的看房。", "note": "\"Flat\" is common in NZ English." },
+      { "id": "s2", "english": "I just wanted to check whether the Saturday slot is still available.", "chinese": "我想确认一下周六那个时间段是否还可以预约。", "note": "\"Slot\" means an available appointment time." },
+      { "id": "s3", "english": "If not, I would be happy to come by early next week.", "chinese": "如果不行的话，我也可以下周初过去。", "note": "\"Come by\" means visit briefly." }
     ],
     "expressions": [
-      {
-        "text": "the main question is what we do next",
-        "meaning": "a transition from context to decision",
-        "chinese": "主要问题是接下来怎么做",
-        "tag": "presentation transition"
-      },
-      {
-        "text": "a staged rollout",
-        "meaning": "launching something in phases",
-        "chinese": "分阶段推出",
-        "tag": "business strategy"
-      },
-      {
-        "text": "keeping the operational risk manageable",
-        "meaning": "making sure the risk stays under control",
-        "chinese": "把运营风险控制在可管理范围内",
-        "tag": "risk language"
-      }
+      { "text": "calling about the viewing", "meaning": "calling regarding a property inspection", "chinese": "打电话询问看房", "tag": "renting" },
+      { "text": "the Saturday slot", "meaning": "the appointment time on Saturday", "chinese": "周六那个时间段", "tag": "appointment" },
+      { "text": "come by early next week", "meaning": "visit near the start of next week", "chinese": "下周初过去", "tag": "daily admin" }
     ],
-    "shadowingLine": "I would recommend a staged rollout."
+    "shadowingLine": "I just wanted to check whether the Saturday slot is still available."
+  },
+  {
+    "id": "au-doctor-appointment",
+    "title": "Explaining a symptom at a clinic",
+    "category": "NZ/AU Life",
+    "difficulty": "B2",
+    "level": "B2",
+    "format": "clinic dialogue",
+    "accent": "Australian living",
+    "duration": "01:06",
+    "sourceType": "original training material",
+    "audioSrc": "",
+    "summary": "A clear way to explain symptoms without overcomplicating the story.",
+    "practiceFocus": "Health appointment English.",
+    "tags": ["AU living", "health", "appointment", "clear description"],
+    "sentences": [
+      { "id": "s1", "english": "I have had this cough for about a week, and it seems to be worse at night.", "chinese": "我咳嗽大概一周了，而且晚上似乎更严重。", "note": "\"Seems to be\" is useful when you are not completely certain." },
+      { "id": "s2", "english": "I do not feel too unwell otherwise, but I wanted to get it checked.", "chinese": "除此之外我没有特别不舒服，但我想检查一下。", "note": "\"Get it checked\" is natural for seeing a doctor." },
+      { "id": "s3", "english": "I have not taken anything apart from some cough syrup.", "chinese": "除了止咳糖浆，我没有吃其他药。", "note": "\"Apart from\" means except for." }
+    ],
+    "expressions": [
+      { "text": "worse at night", "meaning": "more severe during the night", "chinese": "晚上更严重", "tag": "symptoms" },
+      { "text": "get it checked", "meaning": "have a professional look at it", "chinese": "检查一下", "tag": "health" },
+      { "text": "apart from", "meaning": "except for", "chinese": "除了", "tag": "daily grammar" }
+    ],
+    "shadowingLine": "I wanted to get it checked."
+  },
+  {
+    "id": "nz-school-email",
+    "title": "Emailing a school about an absence",
+    "category": "NZ/AU Life",
+    "difficulty": "B1",
+    "level": "B1",
+    "format": "email-style monologue",
+    "accent": "New Zealand living",
+    "duration": "00:48",
+    "sourceType": "original training material",
+    "audioSrc": "",
+    "summary": "A concise message to explain a child's absence.",
+    "practiceFocus": "Polite written/spoken admin English.",
+    "tags": ["NZ living", "school", "email", "family"],
+    "sentences": [
+      { "id": "s1", "english": "I am writing to let you know that Emma will be away from school today.", "chinese": "我写信是想告知 Emma 今天不能去学校。", "note": "\"Let you know\" is a natural notification phrase." },
+      { "id": "s2", "english": "She has a temperature and needs to rest at home.", "chinese": "她发烧了，需要在家休息。", "note": "\"Has a temperature\" is common for fever." },
+      { "id": "s3", "english": "Please let me know if there is anything we should catch up on tomorrow.", "chinese": "如果明天有什么需要补上的内容，请告诉我。", "note": "\"Catch up on\" means complete missed work." }
+    ],
+    "expressions": [
+      { "text": "will be away from school", "meaning": "will not attend school", "chinese": "不能去学校", "tag": "school" },
+      { "text": "has a temperature", "meaning": "has a fever", "chinese": "发烧", "tag": "health" },
+      { "text": "catch up on", "meaning": "complete something missed", "chinese": "补上", "tag": "daily life" }
+    ],
+    "shadowingLine": "Please let me know if there is anything we should catch up on tomorrow."
+  },
+  {
+    "id": "cross-cultural-soft-disagreement",
+    "title": "Disagreeing gently in a team discussion",
+    "category": "Cross-cultural",
+    "difficulty": "C1",
+    "level": "C1",
+    "format": "meeting dialogue",
+    "accent": "NZ/AU workplace",
+    "duration": "01:20",
+    "sourceType": "original training material",
+    "audioSrc": "",
+    "summary": "A soft disagreement that keeps the conversation collaborative.",
+    "practiceFocus": "Indirect disagreement and collaborative alternatives.",
+    "tags": ["meeting", "cross-cultural", "disagreement", "politeness"],
+    "sentences": [
+      { "id": "s1", "english": "I can see the logic behind that approach.", "chinese": "我能理解这个方法背后的逻辑。", "note": "Acknowledge the other person before disagreeing." },
+      { "id": "s2", "english": "My only hesitation is whether it gives us enough room to test the idea properly.", "chinese": "我唯一有点犹豫的是，它是否给了我们足够空间来充分测试这个想法。", "note": "\"My only hesitation\" is softer than \"I disagree\"." },
+      { "id": "s3", "english": "Would it be worth starting with a smaller pilot before we commit fully?", "chinese": "在完全投入之前，是否值得先做一个小规模试点？", "note": "A question form lowers defensiveness." }
+    ],
+    "expressions": [
+      { "text": "I can see the logic behind that", "meaning": "I understand why this makes sense", "chinese": "我能理解这个思路", "tag": "soft opening" },
+      { "text": "my only hesitation is", "meaning": "a polite way to introduce a concern", "chinese": "我唯一有点犹豫的是", "tag": "polite concern" },
+      { "text": "before we commit fully", "meaning": "before making a full decision", "chinese": "在我们完全投入之前", "tag": "decision making" }
+    ],
+    "shadowingLine": "My only hesitation is whether it gives us enough room to test the idea properly."
+  },
+  {
+    "id": "cross-cultural-indirect-request",
+    "title": "Making a request without sounding demanding",
+    "category": "Cross-cultural",
+    "difficulty": "B2",
+    "level": "B2",
+    "format": "workplace dialogue",
+    "accent": "NZ/AU workplace",
+    "duration": "01:00",
+    "sourceType": "original training material",
+    "audioSrc": "",
+    "summary": "A polite request that gives context and room to respond.",
+    "practiceFocus": "Indirectness and workload awareness.",
+    "tags": ["cross-cultural", "request", "politeness", "workload"],
+    "sentences": [
+      { "id": "s1", "english": "Would you have a bit of time this week to look over the draft?", "chinese": "你这周有没有一点时间帮我看一下草稿？", "note": "\"Would you have a bit of time\" is softer than \"Can you\"." },
+      { "id": "s2", "english": "No pressure if you are tied up; I can also ask someone else to sanity-check it.", "chinese": "如果你很忙也没关系，我也可以请别人帮我快速把关。", "note": "\"Tied up\" means busy." },
+      { "id": "s3", "english": "I mainly want to make sure the tone feels right before it goes out.", "chinese": "我主要是想确保在发出去之前语气是合适的。", "note": "Explaining the reason makes the request easier to accept." }
+    ],
+    "expressions": [
+      { "text": "look over the draft", "meaning": "review the draft quickly", "chinese": "看一下草稿", "tag": "request" },
+      { "text": "if you are tied up", "meaning": "if you are busy", "chinese": "如果你很忙", "tag": "workload" },
+      { "text": "sanity-check it", "meaning": "review it for obvious problems", "chinese": "快速把关", "tag": "workplace casual" }
+    ],
+    "shadowingLine": "No pressure if you are tied up."
+  },
+  {
+    "id": "cross-cultural-feedback",
+    "title": "Receiving feedback without becoming defensive",
+    "category": "Cross-cultural",
+    "difficulty": "B2",
+    "level": "B2",
+    "format": "feedback dialogue",
+    "accent": "professional workplace",
+    "duration": "01:06",
+    "sourceType": "original training material",
+    "audioSrc": "",
+    "summary": "A response that shows you understand feedback and will act on it.",
+    "practiceFocus": "Acknowledging feedback and asking for examples.",
+    "tags": ["cross-cultural", "feedback", "workplace", "growth"],
+    "sentences": [
+      { "id": "s1", "english": "Thanks for pointing that out; I can see how the message may have landed that way.", "chinese": "谢谢你指出来；我能理解那条信息为什么可能会给人那样的感觉。", "note": "\"Landed that way\" means was received or interpreted that way." },
+      { "id": "s2", "english": "Could you give me an example of where the tone felt too direct?", "chinese": "你能给我一个例子，哪里语气感觉太直接了吗？", "note": "Asking for an example keeps the conversation practical." },
+      { "id": "s3", "english": "I will adjust it so the ask is still clear but less abrupt.", "chinese": "我会调整一下，让请求仍然清楚但不那么突然。", "note": "\"Abrupt\" means too sudden or blunt." }
+    ],
+    "expressions": [
+      { "text": "pointing that out", "meaning": "mentioning or identifying that issue", "chinese": "指出这一点", "tag": "feedback" },
+      { "text": "landed that way", "meaning": "was received in that way", "chinese": "给人那样的感觉", "tag": "tone" },
+      { "text": "less abrupt", "meaning": "less sudden or blunt", "chinese": "不那么突然/生硬", "tag": "tone" }
+    ],
+    "shadowingLine": "I can see how the message may have landed that way."
+  },
+  {
+    "id": "cross-cultural-saying-no",
+    "title": "Saying no while preserving the relationship",
+    "category": "Cross-cultural",
+    "difficulty": "C1",
+    "level": "C1",
+    "format": "workplace dialogue",
+    "accent": "NZ/AU workplace",
+    "duration": "01:15",
+    "sourceType": "original training material",
+    "audioSrc": "",
+    "summary": "A careful refusal that explains constraints and offers an alternative.",
+    "practiceFocus": "Boundary setting with warmth.",
+    "tags": ["cross-cultural", "saying no", "boundaries", "relationship"],
+    "sentences": [
+      { "id": "s1", "english": "I would like to help, but I do not think I can take this on properly this week.", "chinese": "我愿意帮忙，但我觉得这周我没法好好接下这件事。", "note": "\"Properly\" shows you care about quality." },
+      { "id": "s2", "english": "If it can wait until next Tuesday, I could give it the attention it needs.", "chinese": "如果可以等到下周二，我就能给它足够的关注。", "note": "Offer a realistic alternative." },
+      { "id": "s3", "english": "Otherwise, it may be better to ask someone who has more capacity right now.", "chinese": "否则，可能请现在更有余力的人会更好。", "note": "\"Capacity\" means available time and energy." }
+    ],
+    "expressions": [
+      { "text": "take this on properly", "meaning": "accept and do the task well", "chinese": "好好接下这件事", "tag": "boundary" },
+      { "text": "give it the attention it needs", "meaning": "spend enough careful time on it", "chinese": "给它足够的关注", "tag": "quality" },
+      { "text": "has more capacity", "meaning": "has more available time or energy", "chinese": "更有余力", "tag": "workload" }
+    ],
+    "shadowingLine": "I do not think I can take this on properly this week."
   }
 ]

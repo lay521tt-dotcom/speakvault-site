@@ -1,10 +1,13 @@
-const storageKey = "speakvault-listening-record-v2";
-const previousStorageKey = "speakvault-listening-record-v1";
+const storageKey = "speakvault-listening-record-v3";
+const previousStorageKeys = ["speakvault-listening-record-v2", "speakvault-listening-record-v1"];
+const accessCodeKey = "speakvault-access-code";
 
 const fallbackItems = [
   {
     id: "meeting-delay-update",
     title: "A calm update when the timeline may slip",
+    category: "Meeting",
+    difficulty: "B2",
     level: "B2",
     format: "workplace monologue",
     accent: "NZ/AU workplace",
@@ -12,31 +15,20 @@ const fallbackItems = [
     sourceType: "original training material",
     audioSrc: "",
     summary: "A short project update that explains a delay without sounding defensive.",
+    practiceFocus: "Softening bad news and proposing a timeline adjustment.",
     tags: ["meeting", "status update", "timeline", "soft tone"],
     sentences: [
       {
         id: "s1",
         english: "I wanted to give a quick update on where things stand.",
         chinese: "我想快速说明一下目前的进展。",
-        note: 'A calm opening for a status update. "Where things stand" means the current situation.',
+        note: '"Where things stand" means the current situation.',
       },
       {
         id: "s2",
         english: "Most of the work is moving in the right direction, but one part may need a bit more time.",
         chinese: "大部分工作方向是对的，但其中一部分可能需要多一点时间。",
-        note: "This softens the problem by placing it inside the wider progress.",
-      },
-      {
-        id: "s3",
-        english: "I do not want to overstate the issue, but I think it is worth flagging early.",
-        chinese: "我不想把问题说得太严重，但我觉得值得早点提出来。",
-        note: '"Flagging early" sounds proactive and professional in NZ/AU workplace English.',
-      },
-      {
-        id: "s4",
-        english: "If we adjust the timeline now, we can avoid rushing the final review later.",
-        chinese: "如果我们现在调整时间线，就可以避免后面最终审核太赶。",
-        note: "This frames the delay as risk management, not an excuse.",
+        note: "This softens the problem by placing it inside wider progress.",
       },
     ],
     expressions: [
@@ -46,20 +38,8 @@ const fallbackItems = [
         chinese: "目前的情况 / 进展",
         tag: "status update",
       },
-      {
-        text: "worth flagging early",
-        meaning: "important enough to mention before it becomes a bigger issue",
-        chinese: "值得早点提出来",
-        tag: "workplace nuance",
-      },
-      {
-        text: "avoid rushing the final review",
-        meaning: "prevent the final review from becoming hurried",
-        chinese: "避免最终审核太赶",
-        tag: "timeline",
-      },
     ],
-    shadowingLine: "I do not want to overstate the issue, but I think it is worth flagging early.",
+    shadowingLine: "I wanted to give a quick update on where things stand.",
   },
 ];
 
@@ -77,17 +57,31 @@ let record = loadRecord();
 function loadRecord() {
   try {
     const nextRecord = JSON.parse(localStorage.getItem(storageKey));
-    if (nextRecord?.items) return nextRecord;
+    if (nextRecord?.items) return normalizeRecord(nextRecord);
 
-    const oldRecord = JSON.parse(localStorage.getItem(previousStorageKey));
-    if (oldRecord && typeof oldRecord === "object") {
-      return { selectedItemId: "", items: oldRecord };
+    for (const key of previousStorageKeys) {
+      const oldRecord = JSON.parse(localStorage.getItem(key));
+      if (oldRecord && typeof oldRecord === "object") {
+        return normalizeRecord({ selectedItemId: oldRecord.selectedItemId || "", items: oldRecord.items || oldRecord });
+      }
     }
   } catch {
-    return { selectedItemId: "", items: {} };
+    return normalizeRecord({});
   }
 
-  return { selectedItemId: "", items: {} };
+  return normalizeRecord({});
+}
+
+function normalizeRecord(value) {
+  return {
+    selectedItemId: value.selectedItemId || "",
+    filters: {
+      category: value.filters?.category || "all",
+      difficulty: value.filters?.difficulty || "all",
+      vault: value.filters?.vault || "all",
+    },
+    items: value.items || {},
+  };
 }
 
 function saveRecord() {
@@ -111,6 +105,7 @@ function itemRecord(itemId = currentItem?.id) {
     savedExpressions: [],
     reflection: "",
     status: "not-started",
+    aiFeedback: null,
   };
   record.items[itemId].dictation ||= {};
   record.items[itemId].savedExpressions ||= [];
@@ -126,6 +121,62 @@ function setText(selector, value) {
 
 function sourceForItem(itemId) {
   return items.find((item) => item.id === itemId);
+}
+
+function uniqueValues(key) {
+  return [...new Set(items.map((item) => item[key] || item.level).filter(Boolean))].sort();
+}
+
+function filteredItems() {
+  return items.filter((item) => {
+    const categoryMatch = record.filters.category === "all" || item.category === record.filters.category;
+    const difficultyMatch = record.filters.difficulty === "all" || (item.difficulty || item.level) === record.filters.difficulty;
+    return categoryMatch && difficultyMatch;
+  });
+}
+
+function renderSelectOptions(selector, values, allLabel, currentValue) {
+  const select = document.querySelector(selector);
+  if (!select) return;
+  select.innerHTML = [`<option value="all">${escapeHtml(allLabel)}</option>`]
+    .concat(values.map((value) => `<option value="${escapeHtml(value)}">${escapeHtml(value)}</option>`))
+    .join("");
+  select.value = values.includes(currentValue) ? currentValue : "all";
+}
+
+function setupFilters() {
+  renderSelectOptions("[data-category-filter]", uniqueValues("category"), "All scenarios", record.filters.category);
+  renderSelectOptions("[data-difficulty-filter]", uniqueValues("difficulty"), "All levels", record.filters.difficulty);
+
+  const categoryFilter = document.querySelector("[data-category-filter]");
+  const difficultyFilter = document.querySelector("[data-difficulty-filter]");
+  const resetFilters = document.querySelector("[data-reset-filters]");
+
+  if (categoryFilter) {
+    categoryFilter.onchange = () => {
+      record.filters.category = categoryFilter.value;
+      saveRecord();
+      renderLibrary();
+    };
+  }
+
+  if (difficultyFilter) {
+    difficultyFilter.onchange = () => {
+      record.filters.difficulty = difficultyFilter.value;
+      saveRecord();
+      renderLibrary();
+    };
+  }
+
+  if (resetFilters) {
+    resetFilters.onclick = () => {
+      record.filters.category = "all";
+      record.filters.difficulty = "all";
+      setupFilters();
+      renderLibrary();
+      saveRecord();
+    };
+  }
 }
 
 function renderTags(tags) {
@@ -174,18 +225,20 @@ function renderCurrentItem(item) {
   record.selectedItemId = item.id;
   saveRecord();
 
-  setText("[data-current-level]", item.level);
+  setText("[data-current-level]", item.difficulty || item.level);
   setText("[data-current-duration]", item.duration);
   setText("[data-current-title]", item.title);
   setText("[data-current-summary]", item.summary);
+  setText("[data-current-focus]", item.practiceFocus || item.format || "");
   setText("[data-shadowing-line]", item.shadowingLine);
-  renderTags(item.tags);
+  renderTags([item.category, item.format, ...(item.tags || [])].filter(Boolean));
   renderAudio(item);
   renderLibrary();
   renderStatusButtons();
   renderDictation(item);
   renderSubtitles(item);
   renderExpressions(item);
+  renderAiFeedback();
   renderVault();
 
   const reflection = document.querySelector("[data-reflection-input]");
@@ -201,16 +254,27 @@ function renderCurrentItem(item) {
 function renderLibrary() {
   const target = document.querySelector("[data-library-list]");
   if (!target) return;
+  const visibleItems = filteredItems();
 
-  target.innerHTML = items
+  if (!visibleItems.length) {
+    target.innerHTML = `
+      <article class="empty-vault">
+        <strong>No clips match these filters.</strong>
+        <p>Reset the library filters to see every listening item.</p>
+      </article>
+    `;
+    return;
+  }
+
+  target.innerHTML = visibleItems
     .map((item) => {
       const saved = itemRecord(item.id);
       const isActive = currentItem?.id === item.id;
       return `
         <article class="library-card ${isActive ? "is-current" : ""}">
           <div class="library-card-top">
-            <span>${escapeHtml(item.level)}</span>
-            <span>${escapeHtml(item.duration)}</span>
+            <span>${escapeHtml(item.category)}</span>
+            <span>${escapeHtml(item.difficulty || item.level)}</span>
           </div>
           <h3>${escapeHtml(item.title)}</h3>
           <p>${escapeHtml(item.summary)}</p>
@@ -301,7 +365,12 @@ function toggleExpression(expression) {
   if (expressionSaved(expression.text)) {
     itemRecord().savedExpressions = saved.filter((item) => item.text !== expression.text);
   } else {
-    saved.push({ ...expression, itemId: currentItem.id, itemTitle: currentItem.title });
+    saved.push({
+      ...expression,
+      itemId: currentItem.id,
+      itemTitle: currentItem.title,
+      category: currentItem.category,
+    });
   }
   saveRecord();
   renderExpressions(currentItem);
@@ -337,20 +406,42 @@ function renderExpressions(item) {
 
 function savedExpressionsAcrossLibrary() {
   return Object.entries(record.items || {}).flatMap(([itemId, saved]) =>
-    (saved.savedExpressions || []).map((expression) => ({
-      ...expression,
-      itemId,
-      itemTitle: expression.itemTitle || sourceForItem(itemId)?.title || "Saved clip",
-    })),
+    (saved.savedExpressions || []).map((expression) => {
+      const source = sourceForItem(itemId);
+      return {
+        ...expression,
+        itemId,
+        itemTitle: expression.itemTitle || source?.title || "Saved clip",
+        category: expression.category || source?.category || "Uncategorised",
+      };
+    }),
   );
+}
+
+function renderVaultFilters(saved) {
+  const target = document.querySelector("[data-vault-filter]");
+  if (!target) return;
+  const categories = [...new Set(saved.map((expression) => expression.category).filter(Boolean))].sort();
+  target.innerHTML = [`<option value="all">All saved phrases</option>`]
+    .concat(categories.map((category) => `<option value="${escapeHtml(category)}">${escapeHtml(category)}</option>`))
+    .join("");
+  target.value = categories.includes(record.filters.vault) ? record.filters.vault : "all";
+  target.onchange = () => {
+    record.filters.vault = target.value;
+    saveRecord();
+    renderVault();
+  };
 }
 
 function renderVault() {
   const target = document.querySelector("[data-vault-list]");
   if (!target) return;
   const saved = savedExpressionsAcrossLibrary();
+  renderVaultFilters(saved);
+  const visibleSaved =
+    record.filters.vault === "all" ? saved : saved.filter((expression) => expression.category === record.filters.vault);
 
-  if (!saved.length) {
+  if (!visibleSaved.length) {
     target.innerHTML = `
       <article class="empty-vault">
         <strong>No saved expressions yet.</strong>
@@ -360,19 +451,140 @@ function renderVault() {
     return;
   }
 
-  target.innerHTML = saved
+  target.innerHTML = visibleSaved
     .map(
       (expression) => `
         <article>
-          <span class="status saved">${escapeHtml(expression.tag || "saved")}</span>
+          <span class="status saved">${escapeHtml(expression.category)}</span>
           <strong>${escapeHtml(expression.text)}</strong>
           <p>${escapeHtml(expression.meaning)}</p>
           <p>${escapeHtml(expression.chinese)}</p>
-          <small>${escapeHtml(expression.itemTitle)}</small>
+          <small>${escapeHtml(expression.itemTitle)} · ${escapeHtml(expression.tag || "saved")}</small>
         </article>
       `,
     )
     .join("");
+}
+
+function renderAiFeedback() {
+  const target = document.querySelector("[data-ai-feedback]");
+  if (!target) return;
+  const feedback = itemRecord().aiFeedback;
+
+  if (!feedback) {
+    target.innerHTML = `
+      <article class="empty-vault">
+        <strong>No AI feedback yet.</strong>
+        <p>Write a dictation or reflection, then analyze the current practice.</p>
+      </article>
+    `;
+    return;
+  }
+
+  target.innerHTML = `
+    <article class="ai-feedback-card">
+      <span class="status saved">Natural rewrite</span>
+      <p>${escapeHtml(feedback.naturalRewrite)}</p>
+    </article>
+    <article class="ai-feedback-card">
+      <span class="status saved">Grammar and wording</span>
+      ${(feedback.grammarCorrections || [])
+        .map(
+          (item) => `
+            <div class="feedback-row">
+              <strong>${escapeHtml(item.correction)}</strong>
+              <p>${escapeHtml(item.explanationZh)}</p>
+              ${item.original ? `<small>Original: ${escapeHtml(item.original)}</small>` : ""}
+            </div>
+          `,
+        )
+        .join("")}
+    </article>
+    <article class="ai-feedback-card">
+      <span class="status saved">Phrase suggestions</span>
+      ${(feedback.phraseSuggestions || [])
+        .map(
+          (item) => `
+            <div class="feedback-row">
+              <strong>${escapeHtml(item.phrase)}</strong>
+              <p>${escapeHtml(item.reasonZh)}</p>
+              <small>${escapeHtml(item.example)}</small>
+            </div>
+          `,
+        )
+        .join("")}
+    </article>
+    <article class="ai-feedback-card">
+      <span class="status saved">Next practice</span>
+      <p>${escapeHtml(feedback.practiceAdvice)}</p>
+      <small>${escapeHtml(feedback.encouragement)}</small>
+    </article>
+  `;
+}
+
+function currentPracticePayload() {
+  const saved = itemRecord();
+  return {
+    item: {
+      id: currentItem.id,
+      title: currentItem.title,
+      category: currentItem.category,
+      difficulty: currentItem.difficulty || currentItem.level,
+      summary: currentItem.summary,
+      practiceFocus: currentItem.practiceFocus,
+      targetLine: currentItem.shadowingLine,
+      sentences: currentItem.sentences.map((sentence, index) => ({
+        index: index + 1,
+        english: sentence.english,
+        chinese: sentence.chinese,
+      })),
+    },
+    dictation: saved.dictation || {},
+    reflection: saved.reflection || "",
+    savedExpressions: saved.savedExpressions || [],
+  };
+}
+
+function bindAiControls() {
+  const codeInput = document.querySelector("[data-access-code-input]");
+  const button = document.querySelector("[data-ai-analyze]");
+  const status = document.querySelector("[data-ai-status]");
+
+  if (codeInput) {
+    codeInput.value = localStorage.getItem(accessCodeKey) || "";
+    codeInput.oninput = () => localStorage.setItem(accessCodeKey, codeInput.value);
+  }
+
+  if (!button || !status) return;
+
+  button.onclick = async () => {
+    const accessCode = codeInput?.value.trim() || "";
+    if (!accessCode) {
+      status.textContent = "Enter the shared access code first.";
+      return;
+    }
+
+    button.disabled = true;
+    status.textContent = "Analyzing your current practice...";
+
+    try {
+      const response = await fetch("/api/analyze-writing", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ accessCode, practice: currentPracticePayload() }),
+      });
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || "AI feedback is unavailable.");
+      itemRecord().aiFeedback = data.feedback;
+      saveRecord();
+      renderAiFeedback();
+      status.textContent = "Feedback saved locally with this listening item.";
+    } catch (error) {
+      status.textContent = error.message || "AI feedback is unavailable right now.";
+    } finally {
+      button.disabled = false;
+    }
+  };
 }
 
 async function loadItems() {
@@ -388,6 +600,8 @@ async function loadItems() {
 
 async function initWorkspace() {
   items = await loadItems();
+  setupFilters();
+  bindAiControls();
   const selected = sourceForItem(record.selectedItemId) || items[0];
   renderCurrentItem(selected);
 }

@@ -27,8 +27,8 @@
     <title>SpeakVault | Intensive Listening Workspace</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="site.webmanifest" />
-    <link rel="stylesheet" href="styles.css?v=20260602-phase1" />
-    <script src="app.js?v=20260602-phase1" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20260603-shareable1" />
+    <script src="app.js?v=20260603-shareable1" defer></script>
   </head>
   <body>
     <header class="site-header">
@@ -42,6 +42,7 @@
         <a href="#dictation">Dictation</a>
         <a href="#subtitles">Subtitles</a>
         <a href="#mine">Mine</a>
+        <a href="#ai">AI</a>
         <a href="#vault">Vault</a>
       </nav>
     </header>
@@ -64,6 +65,7 @@
           </div>
           <h2 data-current-title>A calm update when the timeline may slip</h2>
           <p data-current-summary>A short project update that explains a delay without sounding defensive.</p>
+          <p class="practice-focus" data-current-focus>Softening bad news and proposing a timeline adjustment.</p>
           <div class="meta-row" data-current-tags>
             <span>meeting</span>
             <span>status update</span>
@@ -86,7 +88,22 @@
         <div class="section-copy">
           <p class="eyebrow">Listening library</p>
           <h2>Choose one clip and work through it deeply.</h2>
-          <p>Start with these original training clips, then replace or extend the corpus with your own materials.</p>
+          <p>Filter by scenario and difficulty. Your notes stay local in this browser.</p>
+        </div>
+        <div class="filter-bar" aria-label="Library filters">
+          <label>
+            <span>Scenario</span>
+            <select data-category-filter>
+              <option value="all">All scenarios</option>
+            </select>
+          </label>
+          <label>
+            <span>Difficulty</span>
+            <select data-difficulty-filter>
+              <option value="all">All levels</option>
+            </select>
+          </label>
+          <button type="button" data-reset-filters>Reset</button>
         </div>
         <div class="library-grid" data-library-list></div>
       </section>
@@ -167,11 +184,43 @@
         </div>
       </section>
 
+      <section class="section ai-section" id="ai">
+        <div class="section-copy">
+          <p class="eyebrow">AI writing feedback</p>
+          <h2>Check your wording, grammar, and naturalness.</h2>
+          <p>AI feedback is text-only in V1. Pronunciation feedback stays out of scope for now.</p>
+        </div>
+        <div class="ai-panel">
+          <label class="access-code-box">
+            <span>Shared access code</span>
+            <input data-access-code-input type="password" autocomplete="current-password" placeholder="Enter the family/friends code" />
+          </label>
+          <div class="ai-actions">
+            <button type="button" data-ai-analyze>Analyze current practice</button>
+            <span data-ai-status>Feedback is saved locally with this listening item.</span>
+          </div>
+          <div class="ai-feedback" data-ai-feedback>
+            <article class="empty-vault">
+              <strong>No AI feedback yet.</strong>
+              <p>Write a dictation or reflection, then analyze the current practice.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <section class="section vault-section" id="vault">
         <div class="section-copy">
           <p class="eyebrow">Phrase vault</p>
           <h2>Your saved expressions across the listening library.</h2>
           <p>Saved expressions, dictation notes, and practice status are stored locally in this browser.</p>
+        </div>
+        <div class="filter-bar vault-filter-bar" aria-label="Phrase vault filters">
+          <label>
+            <span>Saved scenario</span>
+            <select data-vault-filter>
+              <option value="all">All saved phrases</option>
+            </select>
+          </label>
         </div>
         <div class="vault-list" data-vault-list></div>
       </section>

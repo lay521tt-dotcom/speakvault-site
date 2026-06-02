@@ -1,26 +1,23 @@
 # SpeakVault Website
 
-This folder is the standalone static site for SpeakVault.
+SpeakVault is a shareable English study workspace for intensive listening, dictation records, phrase mining, and AI writing feedback.
 
-The old web app has been archived separately. This project is now a first-version intensive listening workspace and
-should be developed, committed, and deployed on its own.
+The old web app has been archived separately. This project is developed and deployed as its own site.
 
 ## Structure
 
-- `index.html` - public website homepage
-- `styles.css` - website styling
-- `app.js` - local dictation, subtitle reveal, expression mining, and phrase vault interactions
-- `content/corpus.json` - listening library data using the schema in `PRODUCT.md`
-- `PRODUCT.md` - product requirements and corpus schema
+- `index.html` - study workspace UI
+- `styles.css` - visual design and responsive layout
+- `app.js` - local records, filters, subtitles, phrase vault, and AI feedback UI
+- `api/analyze-writing.js` - Vercel serverless endpoint for AI text feedback
+- `content/corpus.json` - scenario-based listening library
+- `PRODUCT.md` - product requirements and schema
 - `assets/audio/` - optional local audio files referenced by `audioSrc`
-- `assets/product-preview.svg` - archived product visual from the earlier public-page concept
-- `assets/favicon.svg` - browser tab icon
-- `assets/og-image.svg` - social sharing preview image
-- `site.webmanifest` - basic install/display metadata
+- `site.webmanifest` - install/display metadata
 
 ## Local Preview
 
-Open `index.html` directly in a browser, or run:
+Run:
 
 ```bash
 npm start
@@ -32,20 +29,26 @@ Then visit:
 http://localhost:4173
 ```
 
-## Deployment
+The static UI can be opened directly from `index.html`, but the AI endpoint requires Vercel or another serverless runtime.
 
-This is a static site and can be deployed directly from the repository root.
+## Vercel Environment Variables
 
-Recommended first deployment: GitHub Pages. See `DEPLOYMENT.md`.
+Set these in the Vercel project:
 
-Before publishing, preview the site locally and confirm the homepage, stylesheet, favicon, manifest, and social preview
-asset all return `200`.
+```txt
+OPENAI_API_KEY=...
+SPEAKVAULT_ACCESS_CODE=...
+```
+
+Optional:
+
+```txt
+OPENAI_MODEL=gpt-4.1-mini
+```
 
 ## Product Boundary
 
-- Website: static intensive listening workspace with a small listening library, dictation, hidden subtitles, expression mining, phrase vault, and shadowing.
-- Tone: simple, elegant, and calm, closer to a study desk than a SaaS landing page.
-- Content model: listening items with sentence-level English subtitles, Chinese explanations, listening notes, expression cards, audio slot, and shadowing line. See `PRODUCT.md` and `content/corpus.json`.
-- Interaction model: local browser storage for selected clip, practice status, dictation notes, reflection, and saved phrase-vault expressions.
-- Audio model: put audio files in `assets/audio/` and set `audioSrc` in `content/corpus.json`; empty `audioSrc` keeps the explicit placeholder.
-- Not included in this v1: login, Supabase sync, OpenAI calls, uploads, cloud libraries, speech scoring, or content licensing workflow.
+- Included: listening library, scenario/difficulty filters, dictation notes, hidden subtitles, expression mining, phrase vault, local practice records, AI writing feedback.
+- Data storage: browser `localStorage` for each user/device.
+- AI protection: shared access code for family/friends; OpenAI key stays server-side.
+- Not included in V1: login, cloud sync, uploads, AI pronunciation correction, speech scoring, realtime voice, user management, or licensed external corpus workflow.

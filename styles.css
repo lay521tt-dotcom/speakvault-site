@@ -236,6 +236,14 @@ blockquote {
   text-transform: uppercase;
 }
 
+.practice-focus {
+  border-left: 4px solid var(--blush);
+  padding-left: 14px;
+  color: var(--blush-deep);
+  font-weight: 850;
+  line-height: 1.45;
+}
+
 .audio-slot.has-audio {
   align-items: flex-start;
   flex-direction: column;
@@ -286,6 +294,45 @@ blockquote {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
   gap: 14px;
+}
+
+.filter-bar {
+  display: flex;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+
+.filter-bar label {
+  display: grid;
+  gap: 8px;
+}
+
+.filter-bar span,
+.access-code-box span {
+  color: var(--plum);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+select,
+input {
+  min-height: 42px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 0 12px;
+  background: #fffdf9;
+  color: var(--ink);
+  font: inherit;
+}
+
+select:focus,
+input:focus {
+  border-color: var(--blush);
+  outline: 3px solid rgba(201, 159, 154, 0.26);
 }
 
 .panel,
@@ -484,6 +531,11 @@ button:hover {
   background: #e8cfcb;
 }
 
+button:disabled {
+  cursor: wait;
+  opacity: 0.64;
+}
+
 .shadowing-panel {
   display: grid;
   grid-template-columns: minmax(0, 1.1fr) minmax(240px, 0.7fr) minmax(240px, 0.7fr);
@@ -538,6 +590,81 @@ button:hover {
   margin-bottom: 0;
   color: rgba(255, 255, 255, 0.78);
   line-height: 1.55;
+}
+
+.ai-panel {
+  display: grid;
+  gap: 16px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 24px;
+  background: var(--panel);
+  box-shadow: 0 16px 44px var(--shadow);
+}
+
+.access-code-box {
+  display: grid;
+  gap: 8px;
+  max-width: 360px;
+}
+
+.ai-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.ai-actions span {
+  color: var(--muted);
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.ai-feedback {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.ai-feedback-card {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 20px;
+  background: #fffdf9;
+}
+
+.ai-feedback-card p,
+.feedback-row p {
+  color: var(--muted);
+  line-height: 1.58;
+}
+
+.feedback-row {
+  border-top: 1px solid var(--line);
+  padding-top: 14px;
+  margin-top: 14px;
+}
+
+.feedback-row:first-of-type {
+  border-top: 0;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.feedback-row strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--ink);
+  line-height: 1.25;
+}
+
+.ai-feedback-card small,
+.feedback-row small {
+  display: block;
+  color: var(--muted);
+  font-weight: 800;
+  line-height: 1.45;
 }
 
 .vault-list {
@@ -609,6 +736,7 @@ button:hover {
   .loop-grid,
   .library-grid,
   .expression-grid,
+  .ai-feedback,
   .shadowing-panel,
   .vault-list {
     grid-template-columns: 1fr;
@@ -679,7 +807,15 @@ button:hover {
   }
 
   .status-row button,
+  .ai-actions button,
+  .filter-bar button,
   .library-card-bottom button {
+    width: 100%;
+  }
+
+  .filter-bar,
+  .filter-bar label,
+  .filter-bar select {
     width: 100%;
   }
 

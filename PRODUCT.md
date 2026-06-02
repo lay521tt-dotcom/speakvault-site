@@ -2,62 +2,60 @@
 
 ## Product Shape
 
-SpeakVault is not a general language learning platform. It is a personal system for turning intensive listening into speakable workplace English.
+SpeakVault is a shareable English study workspace for intensive listening, corpus collection, phrase mining, and AI-assisted writing feedback.
 
-The product helps the learner:
+The product solves three problems:
 
-- practise one listening item deeply instead of browsing endless content;
-- write dictation sentence by sentence before seeing subtitles;
-- reveal English subtitles and Chinese explanations only when ready;
-- mine missed words, chunks, sentences, and cultural signals;
-- save useful expressions into a personal phrase vault;
-- shadow selected lines until they become speakable.
+- paper notebooks are hard to search, reuse, and connect to source material;
+- general English apps are not shaped around personal dictation records and phrase mining;
+- learners need targeted feedback on wording, grammar, and natural workplace English after practice.
 
-## Primary User
+The first version stays quiet and tool-like: open the page, choose a listening item, write dictation, reveal subtitles, save expressions, reflect, and ask AI for text feedback.
 
-The first user is the product owner: a Chinese-speaking working adult in a New Zealand/Australia context who wants better listening and speaking for:
+## Primary Users
 
-- workplace meetings and status updates;
-- reporting, interviews, and job search conversations;
-- cross-cultural communication;
-- real work-life English, not textbook English.
+The first user is the product owner: a Chinese-speaking working adult in a New Zealand/Australia context who wants better listening and speaking for workplace and daily life.
 
-## MVP Scope
+The shareable V1 can also be used by family and friends, but it does not include accounts, cloud sync, or shared user profiles.
 
-V1 is a static, one-page intensive listening workspace with:
+## V1 Scope
 
-- a small listening library of original training items;
-- an audio slot that becomes a native audio player when `audioSrc` is present;
+V1 includes:
+
+- a scenario-first listening library with at least 20 original training items;
+- scenario and difficulty filters for the library;
+- audio slots that become native audio players when `audioSrc` is present;
 - sentence-level dictation textareas;
-- local browser saving for selected clip, dictation notes, practice status, reflection, and phrase vault choices;
-- hidden sentence subtitles using expandable cards;
-- English subtitle, Chinese explanation, and listening note per sentence;
+- local browser saving for selected clip, dictation notes, practice status, reflection, phrase vault choices, and AI feedback;
+- hidden sentence subtitles with English, Chinese explanation, and usage/culture note;
 - expression mining cards with save-to-vault buttons;
-- phrase vault populated from saved expressions across the listening library;
-- a shadowing target line and reflection area.
+- phrase vault populated from saved expressions across the library, with scenario filtering;
+- a shadowing target line and reflection area;
+- a Vercel serverless API for AI writing feedback, protected by a shared access code.
 
-V1 does not include login, database sync, uploads, OpenAI calls, speech scoring, waveform editing, cloud libraries, or content licensing workflow.
+V1 does not include login, database sync, uploads, speech scoring, pronunciation correction, realtime voice, user management, or content licensing workflow.
 
 ## Practice Loop
 
-The learning loop is:
-
-1. First listen without subtitles.
-2. Pause sentence by sentence and type what was heard.
-3. Reveal each subtitle only after dictation.
-4. Compare English, Chinese explanation, and listening note.
-5. Save useful expressions to the phrase vault.
-6. Shadow the target line aloud.
-7. Record reflection on what still feels hard to say.
+1. Choose a listening item from the scenario-based library.
+2. Listen without subtitles.
+3. Pause sentence by sentence and type dictation.
+4. Reveal subtitles only when ready.
+5. Compare English, Chinese explanation, and note.
+6. Save reusable expressions to the phrase vault.
+7. Write a reflection or shadowing note.
+8. Ask AI for text feedback on grammar, wording, naturalness, phrases, and next practice.
 
 ## Listening Item Schema
 
-Listening items should use this shape before materials are imported:
+Listening items use this shape:
 
 ```json
 {
   "id": "meeting-delay-update",
   "title": "A calm update when the timeline may slip",
+  "category": "Meeting",
+  "difficulty": "B2",
   "level": "B2",
   "format": "workplace monologue",
   "accent": "NZ/AU workplace",
@@ -65,13 +63,14 @@ Listening items should use this shape before materials are imported:
   "sourceType": "original training material",
   "audioSrc": "assets/audio/meeting-delay-update.mp3",
   "summary": "A short project update that explains a delay without sounding defensive.",
+  "practiceFocus": "Softening bad news and proposing a timeline adjustment.",
   "tags": ["meeting", "status update", "timeline", "soft tone"],
   "sentences": [
     {
       "id": "s1",
       "english": "I wanted to give a quick update on where things stand.",
       "chinese": "我想快速说明一下目前的进展。",
-      "note": "A calm opening for a status update."
+      "note": "\"Where things stand\" means the current situation."
     }
   ],
   "expressions": [
@@ -86,9 +85,27 @@ Listening items should use this shape before materials are imported:
 }
 ```
 
+## AI Feedback Contract
+
+The frontend calls `POST /api/analyze-writing` with:
+
+- `accessCode`: the shared family/friends access code;
+- `practice`: current item metadata, dictation notes, reflection, target line, and saved expressions.
+
+The API returns structured feedback:
+
+- `naturalRewrite`
+- `grammarCorrections`
+- `phraseSuggestions`
+- `practiceAdvice`
+- `encouragement`
+
+The OpenAI API key and shared access code must only live in Vercel environment variables. They must never be shipped to the browser.
+
 ## Content Principles
 
 - Use user-owned or original training material first; external material requires clear rights boundaries.
+- Organise corpus by scenario first: Meeting, Interview, Presentation, NZ/AU Life, Cross-cultural.
 - Add personal audio by placing files in `assets/audio/` and setting `audioSrc` on the related corpus item.
 - Keep UI in English, with Chinese used for thoughts, explanations, and contrast.
 - Treat subtitles as a checking tool, not the first thing the learner sees.

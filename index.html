@@ -1,0 +1,169 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta
+      name="description"
+      content="SpeakVault turns intensive listening practice into expression mining, phrase vault notes, and speakable workplace English."
+    />
+    <meta name="theme-color" content="#7f8f9f" />
+    <meta name="color-scheme" content="light" />
+    <meta property="og:site_name" content="SpeakVault" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="SpeakVault | Intensive Listening Workspace" />
+    <meta
+      property="og:description"
+      content="A personal system for turning intensive listening into speakable workplace English."
+    />
+    <meta property="og:image" content="assets/og-image.svg" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="SpeakVault | Intensive Listening Workspace" />
+    <meta
+      name="twitter:description"
+      content="Dictation, hidden subtitles, expression mining, phrase vault, and shadowing in one quiet study workspace."
+    />
+    <meta name="twitter:image" content="assets/og-image.svg" />
+    <title>SpeakVault | Intensive Listening Workspace</title>
+    <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
+    <link rel="manifest" href="site.webmanifest" />
+    <link rel="stylesheet" href="styles.css?v=20260602-listening1" />
+    <script src="app.js?v=20260602-listening1" defer></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <a class="brand" href="#top" aria-label="SpeakVault home">
+        <span>SV</span>
+        SpeakVault
+      </a>
+      <nav aria-label="Workspace navigation">
+        <a href="#listen">Listen</a>
+        <a href="#dictation">Dictation</a>
+        <a href="#subtitles">Subtitles</a>
+        <a href="#mine">Mine</a>
+        <a href="#vault">Vault</a>
+      </nav>
+    </header>
+
+    <main id="top">
+      <section class="workspace-hero" id="listen" aria-label="Intensive listening workspace">
+        <div class="hero-copy">
+          <p class="eyebrow">Intensive listening workspace</p>
+          <h1>Turn one listening clip into English you can actually use.</h1>
+          <p>
+            Listen first, write what you hear, reveal the transcript sentence by sentence, mine the expressions that
+            matter, and shadow the line until it feels speakable.
+          </p>
+        </div>
+
+        <article class="listening-card" aria-label="Current listening item">
+          <div class="card-heading">
+            <span data-current-level>B2</span>
+            <strong data-current-duration>01:15</strong>
+          </div>
+          <h2 data-current-title>A calm update when the timeline may slip</h2>
+          <p data-current-summary>A short project update that explains a delay without sounding defensive.</p>
+          <div class="meta-row" data-current-tags>
+            <span>meeting</span>
+            <span>status update</span>
+            <span>timeline</span>
+          </div>
+          <div class="audio-slot" aria-label="Audio placeholder">
+            <span>Audio slot</span>
+            <span data-current-audio>Attach your file later</span>
+          </div>
+        </article>
+      </section>
+
+      <section class="section loop-section" aria-label="Listening practice loop">
+        <div class="loop-grid">
+          <article class="step-card">
+            <span>01</span>
+            <h3>First listen</h3>
+            <p>Play the clip once without subtitles. Catch the situation, tone, and speaker intention.</p>
+          </article>
+          <article class="step-card">
+            <span>02</span>
+            <h3>Sentence dictation</h3>
+            <p>Pause sentence by sentence and type what you hear. Do not check the transcript yet.</p>
+          </article>
+          <article class="step-card">
+            <span>03</span>
+            <h3>Subtitle check</h3>
+            <p>Reveal English and Chinese notes. Mark the words, chunks, and cultural signals you missed.</p>
+          </article>
+          <article class="step-card">
+            <span>04</span>
+            <h3>Mine and shadow</h3>
+            <p>Save useful expressions to the vault, then shadow the target line until it sounds natural.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section dictation-section" id="dictation">
+        <div class="section-copy">
+          <p class="eyebrow">Sentence dictation</p>
+          <h2>Write what you hear before you reveal the transcript.</h2>
+          <p>Your notes are saved in this browser so the training record survives a refresh.</p>
+        </div>
+        <div class="dictation-list" data-dictation-list></div>
+      </section>
+
+      <section class="section subtitles-section" id="subtitles">
+        <div class="section-copy">
+          <p class="eyebrow">Subtitle check</p>
+          <h2>Reveal only when you are ready to compare.</h2>
+          <p>Each sentence opens separately with English, Chinese explanation, and a listening note.</p>
+        </div>
+        <div class="subtitle-list" data-subtitle-list></div>
+      </section>
+
+      <section class="section mining-section" id="mine">
+        <div class="section-copy">
+          <p class="eyebrow">Expression mining</p>
+          <h2>Collect the chunks that explain why you missed the sentence.</h2>
+          <p>Save expressions that are useful enough to practise again, not every word you do not know.</p>
+        </div>
+        <div class="expression-grid" data-expression-list></div>
+      </section>
+
+      <section class="section shadowing-section">
+        <div class="section-copy">
+          <p class="eyebrow">Shadowing</p>
+          <h2>Make one line speakable.</h2>
+        </div>
+        <div class="shadowing-panel">
+          <div>
+            <span class="small-label">Target line</span>
+            <p class="target-line" data-shadowing-line>
+              I do not want to overstate the issue, but I think it is worth flagging early.
+            </p>
+          </div>
+          <div class="shadowing-steps">
+            <span>1. Listen for rhythm</span>
+            <span>2. Shadow at the same speed</span>
+            <span>3. Say it with your own project</span>
+          </div>
+          <label class="reflection-box">
+            <strong>Reflection</strong>
+            <textarea data-reflection-input placeholder="What still sounds unnatural when you say it aloud?"></textarea>
+          </label>
+        </div>
+      </section>
+
+      <section class="section vault-section" id="vault">
+        <div class="section-copy">
+          <p class="eyebrow">Phrase vault</p>
+          <h2>Your saved expressions from this listening item.</h2>
+          <p>Saved expressions are stored locally in this browser for the current v1 prototype.</p>
+        </div>
+        <div class="vault-list" data-vault-list></div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <span>SpeakVault</span>
+      <span>Intensive listening · local prototype</span>
+    </footer>
+  </body>
+</html>

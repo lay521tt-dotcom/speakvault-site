@@ -92,4 +92,4 @@ Listening items should use this shape before materials are imported:
 - Keep UI in English, with Chinese used for thoughts, explanations, and contrast.
 - Treat subtitles as a checking tool, not the first thing the learner sees.
 - Save only expressions worth reusing or shadowing, not every unknown word.
-- Keep the visual mood calm and Morandi-inspired: warm grey, fog blue, dusty mauve, blush, and soft purple.
+- Keep the visual mood calm and Morandi-inspired, led by dusty blush and supported by warm grey, fog blue, dusty mauve, and soft purple.

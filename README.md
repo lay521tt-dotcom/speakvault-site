@@ -2,15 +2,15 @@
 
 This folder is the standalone static site for SpeakVault.
 
-The old web app has been archived separately. This project is now a first-version personal English study workspace and
+The old web app has been archived separately. This project is now a first-version intensive listening workspace and
 should be developed, committed, and deployed on its own.
 
 ## Structure
 
 - `index.html` - public website homepage
 - `styles.css` - website styling
-- `app.js` - lightweight static interaction for selecting corpus scenarios
-- `content/corpus.json` - seed corpus data using the schema in `PRODUCT.md`
+- `app.js` - local dictation, subtitle reveal, expression mining, and phrase vault interactions
+- `content/corpus.json` - seed listening item data using the schema in `PRODUCT.md`
 - `PRODUCT.md` - product requirements and corpus schema
 - `assets/product-preview.svg` - archived product visual from the earlier public-page concept
 - `assets/favicon.svg` - browser tab icon
@@ -42,8 +42,8 @@ asset all return `200`.
 
 ## Product Boundary
 
-- Website: static personal study workspace for listening, shadowing, scenario-based corpus cards, and a sample phrase vault.
+- Website: static intensive listening workspace for dictation, hidden subtitles, expression mining, phrase vault, and shadowing.
 - Tone: simple, elegant, and calm, closer to a study desk than a SaaS landing page.
-- Content model: scenario cards with Chinese thought, natural English, polished English, culture note, tags, audio slot, and vault phrases. See `PRODUCT.md` and `content/corpus.json`.
-- Interaction model: client-side scenario selection only; no persistence or account state.
-- Not included in this v1: login, Supabase sync, OpenAI calls, uploads, private user libraries, speech scoring, or persistent phrase saving.
+- Content model: listening items with sentence-level English subtitles, Chinese explanations, listening notes, expression cards, audio slot, and shadowing line. See `PRODUCT.md` and `content/corpus.json`.
+- Interaction model: local browser storage for dictation notes, reflection, and saved phrase-vault expressions.
+- Not included in this v1: login, Supabase sync, OpenAI calls, uploads, private user libraries, speech scoring, content licensing workflow, or multi-item library management.

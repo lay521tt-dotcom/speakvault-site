@@ -27,8 +27,8 @@
     <title>SpeakVault | Intensive Listening Workspace</title>
     <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
     <link rel="manifest" href="site.webmanifest" />
-    <link rel="stylesheet" href="styles.css?v=20260602-blush1" />
-    <script src="app.js?v=20260602-blush1" defer></script>
+    <link rel="stylesheet" href="styles.css?v=20260602-phase1" />
+    <script src="app.js?v=20260602-phase1" defer></script>
   </head>
   <body>
     <header class="site-header">
@@ -38,6 +38,7 @@
       </a>
       <nav aria-label="Workspace navigation">
         <a href="#listen">Listen</a>
+        <a href="#library">Library</a>
         <a href="#dictation">Dictation</a>
         <a href="#subtitles">Subtitles</a>
         <a href="#mine">Mine</a>
@@ -68,11 +69,26 @@
             <span>status update</span>
             <span>timeline</span>
           </div>
-          <div class="audio-slot" aria-label="Audio placeholder">
+          <div class="audio-slot" data-audio-slot aria-label="Audio placeholder">
             <span>Audio slot</span>
             <span data-current-audio>Attach your file later</span>
           </div>
+          <div class="status-row" aria-label="Practice status">
+            <button type="button" data-status-button="not-started">Not started</button>
+            <button type="button" data-status-button="dictating">Dictating</button>
+            <button type="button" data-status-button="checked">Checked</button>
+            <button type="button" data-status-button="shadowed">Shadowed</button>
+          </div>
         </article>
+      </section>
+
+      <section class="section library-section" id="library">
+        <div class="section-copy">
+          <p class="eyebrow">Listening library</p>
+          <h2>Choose one clip and work through it deeply.</h2>
+          <p>Start with these original training clips, then replace or extend the corpus with your own materials.</p>
+        </div>
+        <div class="library-grid" data-library-list></div>
       </section>
 
       <section class="section loop-section" aria-label="Listening practice loop">

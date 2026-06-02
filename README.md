@@ -25,6 +25,12 @@ Then visit:
 http://localhost:4173
 ```
 
+## Deployment
+
+This is a static site and can be deployed directly from the repository root.
+
+Recommended first deployment: GitHub Pages. See `DEPLOYMENT.md`.
+
 ## Product Boundary
 
 - Website: public positioning, product explanation, examples, practice paths, and early-access calls to action.

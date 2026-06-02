@@ -26,17 +26,17 @@ The first user is the product owner: a Chinese-speaking working adult in a New Z
 
 V1 is a static, one-page intensive listening workspace with:
 
-- one seed listening item;
-- audio placeholder for a future file or source link;
+- a small listening library of original training items;
+- an audio slot that becomes a native audio player when `audioSrc` is present;
 - sentence-level dictation textareas;
-- local browser saving for dictation notes, reflection, and phrase vault choices;
+- local browser saving for selected clip, dictation notes, practice status, reflection, and phrase vault choices;
 - hidden sentence subtitles using expandable cards;
 - English subtitle, Chinese explanation, and listening note per sentence;
 - expression mining cards with save-to-vault buttons;
-- phrase vault populated from saved expressions;
+- phrase vault populated from saved expressions across the listening library;
 - a shadowing target line and reflection area.
 
-V1 does not include login, database sync, uploads, OpenAI calls, speech scoring, waveform editing, content licensing workflow, or multi-item library management.
+V1 does not include login, database sync, uploads, OpenAI calls, speech scoring, waveform editing, cloud libraries, or content licensing workflow.
 
 ## Practice Loop
 
@@ -63,7 +63,7 @@ Listening items should use this shape before materials are imported:
   "accent": "NZ/AU workplace",
   "duration": "01:15",
   "sourceType": "original training material",
-  "audioSrc": "",
+  "audioSrc": "assets/audio/meeting-delay-update.mp3",
   "summary": "A short project update that explains a delay without sounding defensive.",
   "tags": ["meeting", "status update", "timeline", "soft tone"],
   "sentences": [
@@ -89,6 +89,7 @@ Listening items should use this shape before materials are imported:
 ## Content Principles
 
 - Use user-owned or original training material first; external material requires clear rights boundaries.
+- Add personal audio by placing files in `assets/audio/` and setting `audioSrc` on the related corpus item.
 - Keep UI in English, with Chinese used for thoughts, explanations, and contrast.
 - Treat subtitles as a checking tool, not the first thing the learner sees.
 - Save only expressions worth reusing or shadowing, not every unknown word.

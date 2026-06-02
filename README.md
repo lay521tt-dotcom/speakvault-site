@@ -10,8 +10,9 @@ should be developed, committed, and deployed on its own.
 - `index.html` - public website homepage
 - `styles.css` - website styling
 - `app.js` - local dictation, subtitle reveal, expression mining, and phrase vault interactions
-- `content/corpus.json` - seed listening item data using the schema in `PRODUCT.md`
+- `content/corpus.json` - listening library data using the schema in `PRODUCT.md`
 - `PRODUCT.md` - product requirements and corpus schema
+- `assets/audio/` - optional local audio files referenced by `audioSrc`
 - `assets/product-preview.svg` - archived product visual from the earlier public-page concept
 - `assets/favicon.svg` - browser tab icon
 - `assets/og-image.svg` - social sharing preview image
@@ -42,8 +43,9 @@ asset all return `200`.
 
 ## Product Boundary
 
-- Website: static intensive listening workspace for dictation, hidden subtitles, expression mining, phrase vault, and shadowing.
+- Website: static intensive listening workspace with a small listening library, dictation, hidden subtitles, expression mining, phrase vault, and shadowing.
 - Tone: simple, elegant, and calm, closer to a study desk than a SaaS landing page.
 - Content model: listening items with sentence-level English subtitles, Chinese explanations, listening notes, expression cards, audio slot, and shadowing line. See `PRODUCT.md` and `content/corpus.json`.
-- Interaction model: local browser storage for dictation notes, reflection, and saved phrase-vault expressions.
-- Not included in this v1: login, Supabase sync, OpenAI calls, uploads, private user libraries, speech scoring, content licensing workflow, or multi-item library management.
+- Interaction model: local browser storage for selected clip, practice status, dictation notes, reflection, and saved phrase-vault expressions.
+- Audio model: put audio files in `assets/audio/` and set `audioSrc` in `content/corpus.json`; empty `audioSrc` keeps the explicit placeholder.
+- Not included in this v1: login, Supabase sync, OpenAI calls, uploads, cloud libraries, speech scoring, or content licensing workflow.

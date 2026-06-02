@@ -1,0 +1,61 @@
+[
+  {
+    "id": "meeting-delay-update",
+    "title": "A calm update when the timeline may slip",
+    "level": "B2",
+    "format": "workplace monologue",
+    "accent": "NZ/AU workplace",
+    "duration": "01:15",
+    "sourceType": "original training material",
+    "audioSrc": "",
+    "summary": "A short project update that explains a delay without sounding defensive.",
+    "tags": ["meeting", "status update", "timeline", "soft tone"],
+    "sentences": [
+      {
+        "id": "s1",
+        "english": "I wanted to give a quick update on where things stand.",
+        "chinese": "我想快速说明一下目前的进展。",
+        "note": "A calm opening for a status update. “Where things stand” means the current situation."
+      },
+      {
+        "id": "s2",
+        "english": "Most of the work is moving in the right direction, but one part may need a bit more time.",
+        "chinese": "大部分工作方向是对的，但其中一部分可能需要多一点时间。",
+        "note": "This softens the problem by placing it inside the wider progress."
+      },
+      {
+        "id": "s3",
+        "english": "I do not want to overstate the issue, but I think it is worth flagging early.",
+        "chinese": "我不想把问题说得太严重，但我觉得值得早点提出来。",
+        "note": "“Flagging early” sounds proactive and professional in NZ/AU workplace English."
+      },
+      {
+        "id": "s4",
+        "english": "If we adjust the timeline now, we can avoid rushing the final review later.",
+        "chinese": "如果我们现在调整时间线，就可以避免后面最终审核太赶。",
+        "note": "This frames the delay as risk management, not an excuse."
+      }
+    ],
+    "expressions": [
+      {
+        "text": "where things stand",
+        "meaning": "the current situation or current progress",
+        "chinese": "目前的情况 / 进展",
+        "tag": "status update"
+      },
+      {
+        "text": "worth flagging early",
+        "meaning": "important enough to mention before it becomes a bigger issue",
+        "chinese": "值得早点提出来",
+        "tag": "workplace nuance"
+      },
+      {
+        "text": "avoid rushing the final review",
+        "meaning": "prevent the final review from becoming hurried",
+        "chinese": "避免最终审核太赶",
+        "tag": "timeline"
+      }
+    ],
+    "shadowingLine": "I do not want to overstate the issue, but I think it is worth flagging early."
+  }
+]

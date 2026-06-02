@@ -29,6 +29,7 @@ V1 is a static, one-page study dashboard with:
 - a shadowing practice panel;
 - a static phrase vault with practice status;
 - culture or usage notes attached to corpus items.
+- lightweight client-side scenario selection that updates the current focus, shadowing line, culture note, and vault phrases.
 
 V1 does not include login, database sync, uploads, OpenAI calls, speech scoring, or persistent phrase saving.
 
@@ -60,9 +61,11 @@ Corpus items are scenario cards. Each item should use this shape before material
   "tags": ["meeting", "status update", "NZ/AU workplace"],
   "audioSrc": "",
   "vaultPhrases": [
-    "give a quick update",
-    "be upfront about one thing",
-    "flag one timeline risk"
+    {
+      "text": "flag one area that may need more time",
+      "status": "ready",
+      "note": "Use for calm status updates and timeline risks."
+    }
   ]
 }
 ```

@@ -276,6 +276,28 @@ blockquote {
 
 .scenario-card {
   padding: 22px;
+  cursor: pointer;
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease;
+}
+
+.scenario-card:hover,
+.scenario-card:focus-visible,
+.scenario-card.is-active {
+  border-color: rgba(49, 121, 111, 0.72);
+  box-shadow: 0 20px 48px rgba(23, 32, 29, 0.12);
+}
+
+.scenario-card:hover,
+.scenario-card:focus-visible {
+  transform: translateY(-2px);
+}
+
+.scenario-card.is-active {
+  outline: 2px solid rgba(49, 121, 111, 0.18);
+  outline-offset: 3px;
 }
 
 .scenario-meta {

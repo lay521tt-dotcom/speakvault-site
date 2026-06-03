@@ -726,6 +726,45 @@ button:disabled {
   pointer-events: none;
 }
 
+.daily-routine {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.daily-routine article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: rgba(255, 250, 246, 0.72);
+}
+
+.daily-routine span {
+  display: inline-flex;
+  margin-bottom: 12px;
+  border-radius: 999px;
+  padding: 6px 9px;
+  background: var(--soft);
+  color: var(--blush-deep);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.daily-routine strong {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--ink);
+  line-height: 1.2;
+}
+
+.daily-routine p {
+  margin-bottom: 0;
+  color: var(--muted);
+  font-weight: 800;
+  line-height: 1.45;
+}
+
 .record-safety {
   display: grid;
   grid-template-columns: repeat(6, minmax(0, 1fr));
@@ -949,6 +988,7 @@ button:disabled {
   .loop-grid,
   .library-grid,
   .progress-strip,
+  .daily-routine,
   .record-safety,
   .session-list,
   .expression-grid,

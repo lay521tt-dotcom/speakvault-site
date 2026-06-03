@@ -1074,7 +1074,7 @@ function bindRecordControls() {
   if (checkpointButton) {
     checkpointButton.onclick = () => {
       if (savePracticeCheckpoint()) {
-        if (status) status.textContent = "Checkpoint saved. This exact practice state is now in history.";
+        if (status) status.textContent = "Checkpoint saved. Export or copy backup now to protect it outside this browser.";
       } else if (status) {
         status.textContent = "Choose a listening item before saving a checkpoint.";
       }

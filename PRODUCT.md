@@ -31,7 +31,7 @@ V1 includes:
 - expression mining cards with save-to-vault buttons;
 - phrase vault populated from saved expressions across the library, with scenario filtering;
 - a shadowing target line and reflection area;
-- a Vercel serverless API for AI writing feedback, protected by a shared access code.
+- a Vercel serverless API for Claude writing feedback, protected by a shared access code.
 
 V1 does not include login, database sync, uploads, speech scoring, pronunciation correction, realtime voice, user management, or content licensing workflow.
 
@@ -100,7 +100,7 @@ The API returns structured feedback:
 - `practiceAdvice`
 - `encouragement`
 
-The OpenAI API key and shared access code must only live in Vercel environment variables. They must never be shipped to the browser.
+The Anthropic API key and shared access code must only live in Vercel environment variables. They must never be shipped to the browser.
 
 ## Content Principles
 

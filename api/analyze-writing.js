@@ -1,54 +1,23 @@
-const feedbackSchema = {
-  type: "object",
-  additionalProperties: false,
-  required: ["naturalRewrite", "grammarCorrections", "phraseSuggestions", "practiceAdvice", "encouragement"],
-  properties: {
-    naturalRewrite: { type: "string" },
-    grammarCorrections: {
-      type: "array",
-      maxItems: 6,
-      items: {
-        type: "object",
-        additionalProperties: false,
-        required: ["original", "correction", "explanationZh"],
-        properties: {
-          original: { type: "string" },
-          correction: { type: "string" },
-          explanationZh: { type: "string" },
-        },
-      },
-    },
-    phraseSuggestions: {
-      type: "array",
-      maxItems: 5,
-      items: {
-        type: "object",
-        additionalProperties: false,
-        required: ["phrase", "reasonZh", "example"],
-        properties: {
-          phrase: { type: "string" },
-          reasonZh: { type: "string" },
-          example: { type: "string" },
-        },
-      },
-    },
-    practiceAdvice: { type: "string" },
-    encouragement: { type: "string" },
-  },
-};
-
 function sendJson(response, statusCode, body) {
   response.status(statusCode).json(body);
 }
 
 function extractOutputText(data) {
-  if (typeof data.output_text === "string") return data.output_text;
-
-  return (data.output || [])
-    .flatMap((item) => item.content || [])
+  return (data.content || [])
+    .filter((content) => content.type === "text")
     .map((content) => content.text || "")
     .join("")
     .trim();
+}
+
+function parseFeedback(text) {
+  try {
+    return JSON.parse(text);
+  } catch {
+    const match = text.match(/\{[\s\S]*\}/);
+    if (!match) throw new Error("Claude returned feedback in an unexpected format.");
+    return JSON.parse(match[0]);
+  }
 }
 
 function compactPractice(practice) {
@@ -79,7 +48,7 @@ module.exports = async function handler(request, response) {
   }
 
   const expectedAccessCode = process.env.SPEAKVAULT_ACCESS_CODE;
-  const apiKey = process.env.OPENAI_API_KEY;
+  const apiKey = process.env.ANTHROPIC_API_KEY;
 
   if (!expectedAccessCode || !apiKey) {
     return sendJson(response, 503, { error: "AI feedback is not configured yet." });
@@ -97,43 +66,50 @@ module.exports = async function handler(request, response) {
   }
 
   try {
-    const openaiResponse = await fetch("https://api.openai.com/v1/responses", {
+    const anthropicResponse = await fetch(process.env.ANTHROPIC_BASE_URL || "https://api.anthropic.com/v1/messages", {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${apiKey}`,
+        "x-api-key": apiKey,
+        "anthropic-version": process.env.ANTHROPIC_VERSION || "2023-06-01",
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
-        model: process.env.OPENAI_MODEL || "gpt-4.1-mini",
-        input: [
-          {
-            role: "system",
-            content:
-              "You are SpeakVault's English coach for Chinese-speaking adult learners. Give concise, practical feedback for workplace English. Focus on grammar, wording, naturalness, reusable phrases, and next practice. Do not provide pronunciation scoring.",
-          },
+        model: process.env.ANTHROPIC_MODEL || "claude-sonnet-4-6",
+        max_tokens: 1600,
+        system:
+          "You are SpeakVault's English coach for Chinese-speaking adult learners. Give concise, practical feedback for workplace English. Focus on grammar, wording, naturalness, reusable phrases, and next practice. Do not provide pronunciation scoring. Return only valid JSON.",
+        messages: [
           {
             role: "user",
-            content: `Analyze this listening practice record. Explain feedback in Chinese where useful, but keep corrected English examples in English.\n\n${inputText}`,
+            content: `Analyze this listening practice record. Explain feedback in Chinese where useful, but keep corrected English examples in English.
+
+Return exactly this JSON shape:
+{
+  "naturalRewrite": "string",
+  "grammarCorrections": [
+    { "original": "string", "correction": "string", "explanationZh": "string" }
+  ],
+  "phraseSuggestions": [
+    { "phrase": "string", "reasonZh": "string", "example": "string" }
+  ],
+  "practiceAdvice": "string",
+  "encouragement": "string"
+}
+
+Practice record:
+${inputText}`,
           },
         ],
-        text: {
-          format: {
-            type: "json_schema",
-            name: "speakvault_writing_feedback",
-            strict: true,
-            schema: feedbackSchema,
-          },
-        },
       }),
     });
 
-    const data = await openaiResponse.json();
-    if (!openaiResponse.ok) {
-      return sendJson(response, openaiResponse.status, { error: data.error?.message || "AI feedback failed." });
+    const data = await anthropicResponse.json();
+    if (!anthropicResponse.ok) {
+      return sendJson(response, anthropicResponse.status, { error: data.error?.message || "AI feedback failed." });
     }
 
     const outputText = extractOutputText(data);
-    const feedback = JSON.parse(outputText);
+    const feedback = parseFeedback(outputText);
     return sendJson(response, 200, { feedback });
   } catch (error) {
     return sendJson(response, 500, { error: error.message || "AI feedback is unavailable right now." });

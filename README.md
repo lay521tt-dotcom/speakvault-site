@@ -36,14 +36,16 @@ The static UI can be opened directly from `index.html`, but the AI endpoint requ
 Set these in the Vercel project:
 
 ```txt
-OPENAI_API_KEY=...
+ANTHROPIC_API_KEY=...
 SPEAKVAULT_ACCESS_CODE=...
 ```
 
 Optional:
 
 ```txt
-OPENAI_MODEL=gpt-4.1-mini
+ANTHROPIC_MODEL=claude-sonnet-4-6
+ANTHROPIC_BASE_URL=https://api.anthropic.com/v1/messages
+ANTHROPIC_VERSION=2023-06-01
 ```
 
 You can also use `.env.example` as the import template. Put real values into Vercel only; do not commit a filled `.env` file.
@@ -52,5 +54,5 @@ You can also use `.env.example` as the import template. Put real values into Ver
 
 - Included: listening library, scenario/difficulty filters, dictation notes, hidden subtitles, expression mining, phrase vault, local practice records, AI writing feedback.
 - Data storage: browser `localStorage` for each user/device.
-- AI protection: shared access code for family/friends; OpenAI key stays server-side.
+- AI protection: shared access code for family/friends; Anthropic API key stays server-side.
 - Not included in V1: login, cloud sync, uploads, AI pronunciation correction, speech scoring, realtime voice, user management, or licensed external corpus workflow.

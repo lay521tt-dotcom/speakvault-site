@@ -12,14 +12,16 @@ SpeakVault Shareable V1 should be deployed on Vercel because the app now include
 5. Add environment variables:
 
 ```txt
-OPENAI_API_KEY=...
+ANTHROPIC_API_KEY=...
 SPEAKVAULT_ACCESS_CODE=...
 ```
 
 Optional:
 
 ```txt
-OPENAI_MODEL=gpt-4.1-mini
+ANTHROPIC_MODEL=claude-sonnet-4-6
+ANTHROPIC_BASE_URL=https://api.anthropic.com/v1/messages
+ANTHROPIC_VERSION=2023-06-01
 ```
 
 You can use `.env.example` as the import template. Keep real secrets out of Git.
@@ -31,8 +33,8 @@ You can use `.env.example` as the import template. Keep real secrets out of Git.
 - Production URL loads the study workspace.
 - `content/corpus.json`, `styles.css`, `app.js`, favicon, manifest, and social preview assets return `200`.
 - `POST /api/analyze-writing` rejects missing or wrong access code.
-- `POST /api/analyze-writing` returns structured feedback when the correct access code and OpenAI key are configured.
-- `OPENAI_API_KEY` does not appear in browser source, static files, or network responses.
+- `POST /api/analyze-writing` returns structured feedback when the correct access code and Anthropic API key are configured.
+- `ANTHROPIC_API_KEY` does not appear in browser source, static files, or network responses.
 
 ## Local Preview
 

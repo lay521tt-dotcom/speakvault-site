@@ -1064,12 +1064,55 @@ function backupFilename() {
   return `speakvault-records-${date}.json`;
 }
 
+function runRecordSafetyCheck() {
+  const issues = [];
+
+  try {
+    const testKey = "speakvault-self-check";
+    localStorage.setItem(testKey, "ok");
+    if (localStorage.getItem(testKey) !== "ok") issues.push("temporary storage readback failed");
+    localStorage.removeItem(testKey);
+  } catch {
+    issues.push("browser storage is blocked");
+  }
+
+  try {
+    const primary = localStorage.getItem(storageKey);
+    const mirror = localStorage.getItem(storageMirrorKey);
+    if (!primary) issues.push("primary record is missing");
+    if (!mirror) issues.push("local mirror is missing");
+    if (primary && mirror && primary !== mirror) issues.push("primary and mirror do not match");
+  } catch {
+    issues.push("record readback failed");
+  }
+
+  const payload = backupPayload();
+  if (!payload.record || typeof payload.record !== "object") issues.push("backup payload is missing record data");
+  if (!Array.isArray(payload.record.sessions)) issues.push("backup payload is missing practice history");
+
+  return issues;
+}
+
 function bindRecordControls() {
+  const selfCheckButton = document.querySelector("[data-record-self-check]");
   const checkpointButton = document.querySelector("[data-record-checkpoint]");
   const exportButton = document.querySelector("[data-record-export]");
   const copyButton = document.querySelector("[data-record-copy]");
   const importInput = document.querySelector("[data-record-import]");
   const status = document.querySelector("[data-record-status]");
+
+  if (selfCheckButton) {
+    selfCheckButton.onclick = () => {
+      saveRecord();
+      const issues = runRecordSafetyCheck();
+      renderRecordSafetyStatus();
+      if (status) {
+        status.textContent = issues.length
+          ? `Safety check found: ${issues.join("; ")}. Export or copy backup now.`
+          : "Safety check passed. Local save, mirror, and backup payload are readable.";
+      }
+    };
+  }
 
   if (checkpointButton) {
     checkpointButton.onclick = () => {

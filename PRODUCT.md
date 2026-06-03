@@ -31,6 +31,7 @@ V1 includes:
 - visible autosave, storage health, local mirror, and last-backup status for local record safety;
 - backup freshness check that warns when saved records are newer than the latest export/copy backup;
 - visible daily finish routine for checkpoint, backup, and safety confirmation;
+- in-app record safety self-check for storage, mirror, and backup payload readability;
 - hidden full-transcript check with English, Chinese explanation, and usage/culture notes;
 - expression mining cards with save-to-vault buttons;
 - phrase vault populated from saved expressions across the library, with scenario filtering;

@@ -46,6 +46,8 @@ Optional:
 OPENAI_MODEL=gpt-4.1-mini
 ```
 
+You can also use `.env.example` as the import template. Put real values into Vercel only; do not commit a filled `.env` file.
+
 ## Product Boundary
 
 - Included: listening library, scenario/difficulty filters, dictation notes, hidden subtitles, expression mining, phrase vault, local practice records, AI writing feedback.

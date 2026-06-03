@@ -22,6 +22,8 @@ Optional:
 OPENAI_MODEL=gpt-4.1-mini
 ```
 
+You can use `.env.example` as the import template. Keep real secrets out of Git.
+
 6. Deploy to production.
 
 ## Acceptance Checks

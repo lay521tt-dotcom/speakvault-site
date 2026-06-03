@@ -284,7 +284,7 @@ function renderLibrary() {
           <div class="library-card-bottom">
             <span class="status saved">${escapeHtml(statusLabels[saved.status] || statusLabels["not-started"])}</span>
             <button type="button" data-select-item="${escapeHtml(item.id)}">
-              ${isActive ? "Current clip" : "Study this"}
+              ${isActive ? "Current" : "Study"}
             </button>
           </div>
         </article>

@@ -293,7 +293,7 @@ blockquote {
 .library-grid {
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 14px;
+  gap: 16px;
 }
 
 .filter-bar {
@@ -364,7 +364,8 @@ input:focus {
 .library-card {
   display: flex;
   flex-direction: column;
-  min-height: 310px;
+  min-height: 296px;
+  padding: 24px;
 }
 
 .library-card.is-current {
@@ -377,35 +378,57 @@ input:focus {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 10px;
+  gap: 12px;
 }
 
 .library-card-top span {
   color: var(--blush-deep);
   font-size: 12px;
   font-weight: 900;
+  line-height: 1;
 }
 
 .library-card h3 {
-  margin-top: 22px;
-  font-size: 21px;
+  margin: 20px 0 14px;
+  font-size: 20px;
+  line-height: 1.08;
 }
 
 .library-card p {
+  margin-bottom: 20px;
   color: var(--muted);
+  font-size: 15px;
   line-height: 1.52;
 }
 
 .library-card .meta-row {
-  margin: auto 0 18px;
+  margin: auto 0 16px;
 }
 
 .library-card .meta-row span {
   font-size: 11px;
+  padding: 6px 9px;
+}
+
+.library-card .status {
+  margin-bottom: 0;
+  padding: 6px 9px;
+  font-size: 11px;
+  line-height: 1;
 }
 
 .library-card-bottom button {
-  min-width: 104px;
+  min-width: 82px;
+  min-height: 36px;
+  padding: 0 12px;
+  font-size: 14px;
+  line-height: 1;
+}
+
+.library-card.is-current .library-card-bottom button {
+  border-color: rgba(159, 111, 112, 0.22);
+  background: #f8eeee;
+  color: var(--blush-deep);
 }
 
 .meta-row {

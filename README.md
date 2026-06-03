@@ -52,7 +52,7 @@ You can also use `.env.example` as the import template. Put real values into Ver
 
 ## Product Boundary
 
-- Included: listening library, search/scenario/difficulty/progress filters, dictation notes, hidden subtitles, expression mining, phrase vault, local practice records, JSON backup/restore, AI writing feedback.
-- Data storage: browser `localStorage` for each user/device, written to a primary key and local mirror key, with manual JSON export/import for backup. Export regularly before clearing browser data or changing devices.
+- Included: listening library, search/scenario/difficulty/progress filters, dictation notes, hidden subtitles, expression mining, phrase vault, local practice records, JSON backup/restore, copyable backup text, AI writing feedback.
+- Data storage: browser `localStorage` for each user/device, written to a primary key and local mirror key, with manual JSON export/import and copyable backup text. Export regularly before clearing browser data or changing devices.
 - AI protection: shared access code for family/friends; Anthropic API key stays server-side.
 - Not included in V1: login, cloud sync, uploads, AI pronunciation correction, speech scoring, realtime voice, user management, or licensed external corpus workflow.

@@ -33,7 +33,7 @@ V1 includes:
 - expression mining cards with save-to-vault buttons;
 - phrase vault populated from saved expressions across the library, with scenario filtering;
 - a shadowing target line and reflection area;
-- local JSON export/import for backing up the study notebook;
+- local JSON export/import, copyable backup text, and overdue-backup browser reminder for protecting the study notebook;
 - a Vercel serverless API for Claude writing feedback, protected by a shared access code.
 
 V1 does not include login, database sync, uploads, speech scoring, pronunciation correction, realtime voice, user management, or content licensing workflow. Records are safe for daily use on the same browser through local autosave plus a local mirror when the user exports JSON backups regularly; cross-device automatic persistence requires a future cloud-sync version.

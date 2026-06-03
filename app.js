@@ -837,6 +837,19 @@ function renderRecordSafetyStatus() {
   `;
 }
 
+function backupIsOverdue() {
+  const counts = recordCounts();
+  return counts.practisedItems > 0 && daysSince(backupMeta().lastExportedAt) > 7;
+}
+
+function bindBackupReminder() {
+  window.addEventListener("beforeunload", (event) => {
+    if (!backupIsOverdue()) return;
+    event.preventDefault();
+    event.returnValue = "";
+  });
+}
+
 function downloadFile(filename, text) {
   const url = URL.createObjectURL(new Blob([text], { type: "application/json" }));
   const link = document.createElement("a");
@@ -848,26 +861,49 @@ function downloadFile(filename, text) {
   URL.revokeObjectURL(url);
 }
 
+function backupPayload() {
+  return {
+    app: "SpeakVault",
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    storageKey,
+    storageMirrorKey,
+    record: normalizeRecord(record),
+  };
+}
+
+function backupFilename() {
+  const date = new Date().toISOString().slice(0, 10);
+  return `speakvault-records-${date}.json`;
+}
+
 function bindRecordControls() {
   const exportButton = document.querySelector("[data-record-export]");
+  const copyButton = document.querySelector("[data-record-copy]");
   const importInput = document.querySelector("[data-record-import]");
   const status = document.querySelector("[data-record-status]");
 
   if (exportButton) {
     exportButton.onclick = () => {
-      const payload = {
-        app: "SpeakVault",
-        version: 1,
-        exportedAt: new Date().toISOString(),
-        storageKey,
-        storageMirrorKey,
-        record: normalizeRecord(record),
-      };
-      const date = new Date().toISOString().slice(0, 10);
-      downloadFile(`speakvault-records-${date}.json`, JSON.stringify(payload, null, 2));
+      const payload = backupPayload();
+      downloadFile(backupFilename(), JSON.stringify(payload, null, 2));
       saveBackupMeta({ lastExportedAt: payload.exportedAt });
       renderRecordSafetyStatus();
       if (status) status.textContent = "Export ready. Keep the JSON file somewhere you can find later.";
+    };
+  }
+
+  if (copyButton) {
+    copyButton.onclick = async () => {
+      const payload = backupPayload();
+      try {
+        await navigator.clipboard.writeText(JSON.stringify(payload, null, 2));
+        saveBackupMeta({ lastExportedAt: payload.exportedAt, lastCopiedAt: payload.exportedAt });
+        renderRecordSafetyStatus();
+        if (status) status.textContent = "Backup copied. Paste it into a note, file, or cloud drive.";
+      } catch {
+        if (status) status.textContent = "Copy failed. Use Export records instead.";
+      }
     };
   }
 
@@ -917,6 +953,7 @@ async function initWorkspace() {
   setupFilters();
   bindAiControls();
   bindRecordControls();
+  bindBackupReminder();
   const selected = sourceForItem(record.selectedItemId) || items[0];
   renderCurrentItem(selected);
 }

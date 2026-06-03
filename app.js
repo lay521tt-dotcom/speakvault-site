@@ -1,6 +1,7 @@
 const storageKey = "speakvault-listening-record-v3";
 const previousStorageKeys = ["speakvault-listening-record-v2", "speakvault-listening-record-v1"];
 const accessCodeKey = "speakvault-access-code";
+const backupMetaKey = "speakvault-backup-meta-v1";
 
 const fallbackItems = [
   {
@@ -75,6 +76,7 @@ function loadRecord() {
 function normalizeRecord(value) {
   return {
     selectedItemId: value.selectedItemId || "",
+    updatedAt: value.updatedAt || "",
     filters: {
       category: value.filters?.category || "all",
       difficulty: value.filters?.difficulty || "all",
@@ -87,7 +89,40 @@ function normalizeRecord(value) {
 }
 
 function saveRecord() {
+  record.updatedAt = new Date().toISOString();
   localStorage.setItem(storageKey, JSON.stringify(record));
+  renderRecordSafetyStatus();
+}
+
+function backupMeta() {
+  try {
+    return JSON.parse(localStorage.getItem(backupMetaKey)) || {};
+  } catch {
+    return {};
+  }
+}
+
+function saveBackupMeta(value) {
+  localStorage.setItem(backupMetaKey, JSON.stringify({ ...backupMeta(), ...value }));
+}
+
+function formatDateTime(value) {
+  if (!value) return "Not yet";
+  try {
+    return new Intl.DateTimeFormat(undefined, {
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(new Date(value));
+  } catch {
+    return "Unknown";
+  }
+}
+
+function daysSince(value) {
+  if (!value) return Infinity;
+  return (Date.now() - new Date(value).getTime()) / 86400000;
 }
 
 function escapeHtml(value) {
@@ -735,6 +770,54 @@ function bindAiControls() {
   };
 }
 
+function recordCounts() {
+  const savedItems = Object.values(record.items || {});
+  return {
+    practisedItems: savedItems.filter((saved) => saved.status && saved.status !== "not-started").length,
+    dictations: savedItems.filter((saved) => savedPassageDictation(saved.dictation || {}).trim()).length,
+    phrases: savedItems.reduce((total, saved) => total + (saved.savedExpressions || []).length, 0),
+    feedback: savedItems.filter((saved) => saved.aiFeedback).length,
+  };
+}
+
+function renderRecordSafetyStatus() {
+  const target = document.querySelector("[data-record-safety]");
+  if (!target) return;
+
+  const meta = backupMeta();
+  const counts = recordCounts();
+  const lastSaved = record.updatedAt || "";
+  const lastExported = meta.lastExportedAt || "";
+  const backupAge = daysSince(lastExported);
+  const backupTone = backupAge <= 7 ? "is-safe" : "needs-backup";
+  const backupMessage =
+    backupAge <= 7
+      ? "Backup is recent."
+      : counts.practisedItems
+        ? "Export a backup today to protect this notebook."
+        : "Start practising, then export your first backup.";
+
+  target.className = `record-safety ${backupTone}`;
+  target.innerHTML = `
+    <article>
+      <span>Last autosave</span>
+      <strong>${escapeHtml(formatDateTime(lastSaved))}</strong>
+    </article>
+    <article>
+      <span>Last export</span>
+      <strong>${escapeHtml(formatDateTime(lastExported))}</strong>
+    </article>
+    <article>
+      <span>Saved data</span>
+      <strong>${counts.practisedItems} clips · ${counts.dictations} dictations · ${counts.phrases} phrases</strong>
+    </article>
+    <article>
+      <span>Data safety</span>
+      <strong>${escapeHtml(backupMessage)}</strong>
+    </article>
+  `;
+}
+
 function downloadFile(filename, text) {
   const url = URL.createObjectURL(new Blob([text], { type: "application/json" }));
   const link = document.createElement("a");
@@ -762,6 +845,8 @@ function bindRecordControls() {
       };
       const date = new Date().toISOString().slice(0, 10);
       downloadFile(`speakvault-records-${date}.json`, JSON.stringify(payload, null, 2));
+      saveBackupMeta({ lastExportedAt: payload.exportedAt });
+      renderRecordSafetyStatus();
       if (status) status.textContent = "Export ready. Keep the JSON file somewhere you can find later.";
     };
   }
@@ -779,9 +864,11 @@ function bindRecordControls() {
         if (!shouldReplace) return;
         record = normalizeRecord(importedRecord);
         saveRecord();
+        saveBackupMeta({ lastImportedAt: new Date().toISOString() });
         setupFilters();
         const selected = sourceForItem(record.selectedItemId) || currentItem || items[0];
         renderCurrentItem(selected);
+        renderRecordSafetyStatus();
         if (status) status.textContent = "Records imported into this browser.";
       } catch {
         if (status) status.textContent = "Import failed. Please choose a SpeakVault JSON backup file.";
@@ -790,6 +877,8 @@ function bindRecordControls() {
       }
     };
   }
+
+  renderRecordSafetyStatus();
 }
 
 async function loadItems() {

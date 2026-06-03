@@ -726,6 +726,46 @@ button:disabled {
   pointer-events: none;
 }
 
+.record-safety {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 14px;
+}
+
+.record-safety article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 14px;
+  background: rgba(255, 250, 246, 0.7);
+}
+
+.record-safety span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--plum);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.record-safety strong {
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1.35;
+}
+
+.record-safety.needs-backup article:last-child {
+  border-color: rgba(159, 111, 112, 0.42);
+  background: #f8eeee;
+}
+
+.record-safety.is-safe article:last-child {
+  border-color: rgba(155, 163, 153, 0.44);
+  background: #f1f3ed;
+}
+
 .access-code-box {
   display: grid;
   gap: 8px;
@@ -863,6 +903,7 @@ button:disabled {
   .loop-grid,
   .library-grid,
   .progress-strip,
+  .record-safety,
   .expression-grid,
   .ai-feedback,
   .shadowing-panel,

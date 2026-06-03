@@ -178,15 +178,15 @@ function todayKey() {
   return new Date().toISOString().slice(0, 10);
 }
 
-function capturePracticeSession(item = currentItem) {
-  if (!item) return;
-  record.sessions ||= [];
+function practiceSessionSnapshot(item = currentItem, options = {}) {
+  if (!item) return null;
   const saved = itemRecordSnapshot(item.id);
   const now = new Date().toISOString();
   const date = todayKey();
-  const nextSession = {
-    id: `${date}:${item.id}`,
+  return {
+    id: options.id || `${date}:${item.id}`,
     date,
+    kind: options.kind || "daily",
     updatedAt: now,
     itemId: item.id,
     itemTitle: item.title,
@@ -198,12 +198,32 @@ function capturePracticeSession(item = currentItem) {
     savedExpressions: saved.savedExpressions || [],
     aiFeedback: saved.aiFeedback || null,
   };
+}
+
+function capturePracticeSession(item = currentItem) {
+  const nextSession = practiceSessionSnapshot(item);
+  if (!nextSession) return;
+  record.sessions ||= [];
   const existingIndex = record.sessions.findIndex((session) => session.id === nextSession.id);
   if (existingIndex >= 0) {
     record.sessions[existingIndex] = nextSession;
   } else {
     record.sessions.push(nextSession);
   }
+}
+
+function savePracticeCheckpoint(item = currentItem) {
+  const now = new Date().toISOString();
+  const checkpoint = practiceSessionSnapshot(item, {
+    id: `checkpoint:${now}:${item?.id || "unknown"}`,
+    kind: "checkpoint",
+  });
+  if (!checkpoint) return false;
+  record.sessions ||= [];
+  record.sessions.push(checkpoint);
+  saveRecord();
+  renderSessionHistory();
+  return true;
 }
 
 function setText(selector, value) {
@@ -902,9 +922,9 @@ function renderSessionHistory() {
         .map(
           (session) => `
             <article>
-              <span class="status saved">${escapeHtml(session.date)}</span>
+              <span class="status saved">${escapeHtml(session.kind === "checkpoint" ? "Checkpoint" : session.date)}</span>
               <strong>${escapeHtml(session.itemTitle)}</strong>
-              <p>${escapeHtml(statusLabels[session.status] || session.status || "Not started")} · ${escapeHtml(session.category || "Uncategorised")} · ${escapeHtml(session.difficulty || "")}</p>
+              <p>${escapeHtml(session.kind === "checkpoint" ? formatDateTime(session.updatedAt) : session.date)} · ${escapeHtml(statusLabels[session.status] || session.status || "Not started")} · ${escapeHtml(session.category || "Uncategorised")} · ${escapeHtml(session.difficulty || "")}</p>
               <small>${escapeHtml((session.dictation || "").trim() ? "Dictation saved" : "No dictation yet")} · ${escapeHtml(session.reflection ? "Reflection saved" : "No reflection yet")} · ${(session.savedExpressions || []).length} phrases</small>
             </article>
           `,
@@ -955,10 +975,21 @@ function backupFilename() {
 }
 
 function bindRecordControls() {
+  const checkpointButton = document.querySelector("[data-record-checkpoint]");
   const exportButton = document.querySelector("[data-record-export]");
   const copyButton = document.querySelector("[data-record-copy]");
   const importInput = document.querySelector("[data-record-import]");
   const status = document.querySelector("[data-record-status]");
+
+  if (checkpointButton) {
+    checkpointButton.onclick = () => {
+      if (savePracticeCheckpoint()) {
+        if (status) status.textContent = "Checkpoint saved. This exact practice state is now in history.";
+      } else if (status) {
+        status.textContent = "Choose a listening item before saving a checkpoint.";
+      }
+    };
+  }
 
   if (exportButton) {
     exportButton.onclick = () => {

@@ -55,7 +55,20 @@ const statusLabels = {
 let items = [];
 let currentItem;
 let recordSource = "fresh";
+let storageHealth = { ok: true, message: "Storage ready" };
 let record = loadRecord();
+
+function checkStorageHealth() {
+  try {
+    const testKey = "speakvault-storage-test";
+    localStorage.setItem(testKey, "ok");
+    localStorage.removeItem(testKey);
+    storageHealth = { ok: true, message: "Storage ready" };
+  } catch {
+    storageHealth = { ok: false, message: "Storage blocked. Export or copy backup now." };
+  }
+  return storageHealth;
+}
 
 function loadRecord() {
   const candidates = [storageKey, storageMirrorKey, ...previousStorageKeys];
@@ -99,9 +112,14 @@ function saveRecord(options = {}) {
   if (options.captureSession) capturePracticeSession();
   record.updatedAt = new Date().toISOString();
   const serialized = JSON.stringify(record);
-  localStorage.setItem(storageKey, serialized);
-  localStorage.setItem(storageMirrorKey, serialized);
-  recordSource = "primary";
+  try {
+    localStorage.setItem(storageKey, serialized);
+    localStorage.setItem(storageMirrorKey, serialized);
+    recordSource = "primary";
+    storageHealth = { ok: true, message: "Storage ready" };
+  } catch {
+    storageHealth = { ok: false, message: "Storage failed. Export or copy backup now." };
+  }
   renderRecordSafetyStatus();
   if (options.captureSession) renderSessionHistory();
 }
@@ -110,12 +128,17 @@ function backupMeta() {
   try {
     return JSON.parse(localStorage.getItem(backupMetaKey)) || {};
   } catch {
+    storageHealth = { ok: false, message: "Storage blocked. Export or copy backup now." };
     return {};
   }
 }
 
 function saveBackupMeta(value) {
-  localStorage.setItem(backupMetaKey, JSON.stringify({ ...backupMeta(), ...value }));
+  try {
+    localStorage.setItem(backupMetaKey, JSON.stringify({ ...backupMeta(), ...value }));
+  } catch {
+    storageHealth = { ok: false, message: "Storage failed. Export or copy backup now." };
+  }
 }
 
 function formatDateTime(value) {
@@ -845,8 +868,12 @@ function bindAiControls() {
   const status = document.querySelector("[data-ai-status]");
 
   if (codeInput) {
-    codeInput.value = localStorage.getItem(accessCodeKey) || "";
-    codeInput.oninput = () => localStorage.setItem(accessCodeKey, codeInput.value);
+    try {
+      codeInput.value = localStorage.getItem(accessCodeKey) || "";
+      codeInput.oninput = () => localStorage.setItem(accessCodeKey, codeInput.value);
+    } catch {
+      codeInput.value = "";
+    }
   }
 
   if (!button || !status) return;
@@ -916,7 +943,7 @@ function renderRecordSafetyStatus() {
     fresh: "Fresh notebook",
   };
 
-  target.className = `record-safety ${backupTone}`;
+  target.className = `record-safety ${backupTone} ${storageHealth.ok ? "storage-ok" : "storage-warning"}`;
   target.innerHTML = `
     <article>
       <span>Last autosave</span>
@@ -933,6 +960,10 @@ function renderRecordSafetyStatus() {
     <article>
       <span>Record source</span>
       <strong>${escapeHtml(sourceLabels[recordSource] || "Primary save")}</strong>
+    </article>
+    <article class="${storageHealth.ok ? "" : "storage-warning-card"}">
+      <span>Storage</span>
+      <strong>${escapeHtml(storageHealth.message)}</strong>
     </article>
     <article>
       <span>Data safety</span>
@@ -1107,6 +1138,7 @@ async function loadItems() {
 }
 
 async function initWorkspace() {
+  checkStorageHealth();
   items = await loadItems();
   setupFilters();
   bindAiControls();

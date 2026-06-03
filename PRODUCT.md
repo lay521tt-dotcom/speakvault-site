@@ -25,9 +25,9 @@ V1 includes:
 - a scenario-first listening library with at least 20 original training items;
 - scenario and difficulty filters for the library;
 - audio slots that become native audio players when `audioSrc` is present;
-- sentence-level dictation textareas;
+- passage-level dictation textarea for the full 1-3 minute clip;
 - local browser saving for selected clip, dictation notes, practice status, reflection, phrase vault choices, and AI feedback;
-- hidden sentence subtitles with English, Chinese explanation, and usage/culture note;
+- hidden full-transcript check with English, Chinese explanation, and usage/culture notes;
 - expression mining cards with save-to-vault buttons;
 - phrase vault populated from saved expressions across the library, with scenario filtering;
 - a shadowing target line and reflection area;
@@ -39,9 +39,9 @@ V1 does not include login, database sync, uploads, speech scoring, pronunciation
 
 1. Choose a listening item from the scenario-based library.
 2. Listen without subtitles.
-3. Pause sentence by sentence and type dictation.
+3. Pause as needed and type the full passage dictation.
 4. Reveal subtitles only when ready.
-5. Compare English, Chinese explanation, and note.
+5. Compare the full English transcript, Chinese explanation, and usage notes.
 6. Save reusable expressions to the phrase vault.
 7. Write a reflection or shadowing note.
 8. Ask AI for text feedback on grammar, wording, naturalness, phrases, and next practice.

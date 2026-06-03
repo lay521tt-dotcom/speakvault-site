@@ -454,6 +454,10 @@ input:focus {
   padding: 20px;
 }
 
+.dictation-card-full {
+  padding: 24px;
+}
+
 .dictation-card span {
   display: block;
   margin-bottom: 12px;
@@ -463,7 +467,7 @@ input:focus {
 
 textarea {
   width: 100%;
-  min-height: 116px;
+  min-height: 220px;
   resize: vertical;
   border: 1px solid var(--line);
   border-radius: 8px;
@@ -501,10 +505,15 @@ textarea:focus {
   line-height: 1.58;
 }
 
+.subtitle-card-full p {
+  padding: 18px 22px;
+}
+
 .subtitle-english {
   color: var(--ink);
   font-size: 20px;
   font-weight: 850;
+  line-height: 1.62;
 }
 
 .subtitle-chinese {
@@ -515,6 +524,12 @@ textarea:focus {
 .subtitle-note {
   color: var(--muted);
   background: #f7f1eb;
+}
+
+.subtitle-note-list {
+  display: grid;
+  gap: 1px;
+  background: var(--line);
 }
 
 .expression-grid {

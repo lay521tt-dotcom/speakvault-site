@@ -300,21 +300,36 @@ function renderLibrary() {
   });
 }
 
+function passageText(item, key) {
+  return (item.sentences || []).map((sentence) => sentence[key]).filter(Boolean).join(" ");
+}
+
+function passageNotes(item) {
+  return (item.sentences || []).map((sentence) => sentence.note).filter(Boolean);
+}
+
+function savedPassageDictation(saved) {
+  if (saved.full) return saved.full;
+  return Object.entries(saved)
+    .filter(([key]) => key !== "full")
+    .sort(([first], [second]) => first.localeCompare(second, undefined, { numeric: true }))
+    .map(([, value]) => value)
+    .filter(Boolean)
+    .join("\n\n");
+}
+
 function renderDictation(item) {
   const target = document.querySelector("[data-dictation-list]");
   if (!target) return;
   const saved = itemRecord().dictation || {};
+  const passage = savedPassageDictation(saved);
 
-  target.innerHTML = item.sentences
-    .map(
-      (sentence, index) => `
-        <label class="dictation-card">
-          <span>Sentence ${index + 1}</span>
-          <textarea data-dictation-input="${escapeHtml(sentence.id)}" placeholder="Type what you hear before revealing the subtitle.">${escapeHtml(saved[sentence.id] || "")}</textarea>
-        </label>
-      `,
-    )
-    .join("");
+  target.innerHTML = `
+    <label class="dictation-card dictation-card-full">
+      <span>Full passage dictation</span>
+      <textarea data-dictation-input="full" placeholder="Type the whole passage you hear. Pause and replay as needed, but keep the transcript hidden until you finish.">${escapeHtml(passage)}</textarea>
+    </label>
+  `;
 
   target.querySelectorAll("[data-dictation-input]").forEach((input) => {
     input.addEventListener("input", () => {
@@ -330,19 +345,20 @@ function renderDictation(item) {
 function renderSubtitles(item) {
   const target = document.querySelector("[data-subtitle-list]");
   if (!target) return;
+  const notes = passageNotes(item);
 
-  target.innerHTML = item.sentences
-    .map(
-      (sentence, index) => `
-        <details class="subtitle-card">
-          <summary>Reveal sentence ${index + 1}</summary>
-          <p class="subtitle-english">${escapeHtml(sentence.english)}</p>
-          <p class="subtitle-chinese">${escapeHtml(sentence.chinese)}</p>
-          <p class="subtitle-note">${escapeHtml(sentence.note)}</p>
-        </details>
-      `,
-    )
-    .join("");
+  target.innerHTML = `
+    <details class="subtitle-card subtitle-card-full">
+      <summary>Reveal full transcript</summary>
+      <p class="subtitle-english">${escapeHtml(passageText(item, "english"))}</p>
+      <p class="subtitle-chinese">${escapeHtml(passageText(item, "chinese"))}</p>
+      ${
+        notes.length
+          ? `<div class="subtitle-note-list">${notes.map((note) => `<p class="subtitle-note">${escapeHtml(note)}</p>`).join("")}</div>`
+          : ""
+      }
+    </details>
+  `;
 
   target.querySelectorAll("details").forEach((details) => {
     details.addEventListener("toggle", () => {
@@ -538,8 +554,10 @@ function currentPracticePayload() {
         english: sentence.english,
         chinese: sentence.chinese,
       })),
+      transcript: passageText(currentItem, "english"),
+      chineseExplanation: passageText(currentItem, "chinese"),
     },
-    dictation: saved.dictation || {},
+    dictation: savedPassageDictation(saved.dictation || {}),
     reflection: saved.reflection || "",
     savedExpressions: saved.savedExpressions || [],
   };

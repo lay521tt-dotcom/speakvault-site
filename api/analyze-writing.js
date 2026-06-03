@@ -60,6 +60,18 @@ function compactPractice(practice) {
   };
 }
 
+function requestBody(request) {
+  if (!request.body) return {};
+  if (typeof request.body === "string") {
+    try {
+      return JSON.parse(request.body);
+    } catch {
+      return {};
+    }
+  }
+  return request.body;
+}
+
 module.exports = async function handler(request, response) {
   if (request.method !== "POST") {
     response.setHeader("Allow", "POST");
@@ -73,7 +85,7 @@ module.exports = async function handler(request, response) {
     return sendJson(response, 503, { error: "AI feedback is not configured yet." });
   }
 
-  const { accessCode, practice } = request.body || {};
+  const { accessCode, practice } = requestBody(request);
   if (accessCode !== expectedAccessCode) {
     return sendJson(response, 401, { error: "The shared access code is incorrect." });
   }

@@ -545,6 +545,15 @@ function currentPracticePayload() {
   };
 }
 
+async function readJsonResponse(response) {
+  const text = await response.text();
+  try {
+    return text ? JSON.parse(text) : {};
+  } catch {
+    return { error: "AI feedback is only available after the Vercel API is deployed." };
+  }
+}
+
 function bindAiControls() {
   const codeInput = document.querySelector("[data-access-code-input]");
   const button = document.querySelector("[data-ai-analyze]");
@@ -573,7 +582,7 @@ function bindAiControls() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ accessCode, practice: currentPracticePayload() }),
       });
-      const data = await response.json();
+      const data = await readJsonResponse(response);
       if (!response.ok) throw new Error(data.error || "AI feedback is unavailable.");
       itemRecord().aiFeedback = data.feedback;
       saveRecord();

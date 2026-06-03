@@ -79,6 +79,7 @@ function normalizeRecord(value) {
       category: value.filters?.category || "all",
       difficulty: value.filters?.difficulty || "all",
       vault: value.filters?.vault || "all",
+      search: value.filters?.search || "",
     },
     items: value.items || {},
   };
@@ -128,10 +129,33 @@ function uniqueValues(key) {
 }
 
 function filteredItems() {
+  const search = record.filters.search.trim().toLowerCase();
   return items.filter((item) => {
     const categoryMatch = record.filters.category === "all" || item.category === record.filters.category;
     const difficultyMatch = record.filters.difficulty === "all" || (item.difficulty || item.level) === record.filters.difficulty;
-    return categoryMatch && difficultyMatch;
+    const searchText = [
+      item.title,
+      item.category,
+      item.difficulty,
+      item.level,
+      item.format,
+      item.accent,
+      item.summary,
+      item.practiceFocus,
+      ...(item.tags || []),
+      ...(item.sentences || []).flatMap((sentence) => [sentence.english, sentence.chinese, sentence.note]),
+      ...(item.expressions || []).flatMap((expression) => [
+        expression.text,
+        expression.meaning,
+        expression.chinese,
+        expression.tag,
+      ]),
+    ]
+      .filter(Boolean)
+      .join(" ")
+      .toLowerCase();
+    const searchMatch = !search || searchText.includes(search);
+    return categoryMatch && difficultyMatch && searchMatch;
   });
 }
 
@@ -150,7 +174,17 @@ function setupFilters() {
 
   const categoryFilter = document.querySelector("[data-category-filter]");
   const difficultyFilter = document.querySelector("[data-difficulty-filter]");
+  const searchFilter = document.querySelector("[data-library-search]");
   const resetFilters = document.querySelector("[data-reset-filters]");
+
+  if (searchFilter) {
+    searchFilter.value = record.filters.search;
+    searchFilter.oninput = () => {
+      record.filters.search = searchFilter.value;
+      saveRecord();
+      renderLibrary();
+    };
+  }
 
   if (categoryFilter) {
     categoryFilter.onchange = () => {
@@ -172,6 +206,7 @@ function setupFilters() {
     resetFilters.onclick = () => {
       record.filters.category = "all";
       record.filters.difficulty = "all";
+      record.filters.search = "";
       setupFilters();
       renderLibrary();
       saveRecord();
@@ -260,7 +295,7 @@ function renderLibrary() {
     target.innerHTML = `
       <article class="empty-vault">
         <strong>No clips match these filters.</strong>
-        <p>Reset the library filters to see every listening item.</p>
+        <p>Clear the search box or reset the library filters to see every listening item.</p>
       </article>
     `;
     return;
@@ -614,6 +649,63 @@ function bindAiControls() {
   };
 }
 
+function downloadFile(filename, text) {
+  const url = URL.createObjectURL(new Blob([text], { type: "application/json" }));
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = filename;
+  document.body.append(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function bindRecordControls() {
+  const exportButton = document.querySelector("[data-record-export]");
+  const importInput = document.querySelector("[data-record-import]");
+  const status = document.querySelector("[data-record-status]");
+
+  if (exportButton) {
+    exportButton.onclick = () => {
+      const payload = {
+        app: "SpeakVault",
+        version: 1,
+        exportedAt: new Date().toISOString(),
+        storageKey,
+        record: normalizeRecord(record),
+      };
+      const date = new Date().toISOString().slice(0, 10);
+      downloadFile(`speakvault-records-${date}.json`, JSON.stringify(payload, null, 2));
+      if (status) status.textContent = "Export ready. Keep the JSON file somewhere you can find later.";
+    };
+  }
+
+  if (importInput) {
+    importInput.onchange = async () => {
+      const file = importInput.files?.[0];
+      if (!file) return;
+
+      try {
+        const data = JSON.parse(await file.text());
+        const importedRecord = data.record || data;
+        if (!importedRecord || typeof importedRecord !== "object") throw new Error("Invalid backup file.");
+        const shouldReplace = window.confirm("Import this SpeakVault backup and replace records in this browser?");
+        if (!shouldReplace) return;
+        record = normalizeRecord(importedRecord);
+        saveRecord();
+        setupFilters();
+        const selected = sourceForItem(record.selectedItemId) || currentItem || items[0];
+        renderCurrentItem(selected);
+        if (status) status.textContent = "Records imported into this browser.";
+      } catch {
+        if (status) status.textContent = "Import failed. Please choose a SpeakVault JSON backup file.";
+      } finally {
+        importInput.value = "";
+      }
+    };
+  }
+}
+
 async function loadItems() {
   try {
     const response = await fetch("content/corpus.json", { cache: "no-store" });
@@ -629,6 +721,7 @@ async function initWorkspace() {
   items = await loadItems();
   setupFilters();
   bindAiControls();
+  bindRecordControls();
   const selected = sourceForItem(record.selectedItemId) || items[0];
   renderCurrentItem(selected);
 }

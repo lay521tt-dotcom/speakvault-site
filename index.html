@@ -91,6 +91,10 @@
           <p>Filter by scenario and difficulty. Your notes stay local in this browser.</p>
         </div>
         <div class="filter-bar" aria-label="Library filters">
+          <label class="search-filter">
+            <span>Search</span>
+            <input data-library-search type="search" placeholder="Search topic, phrase, Chinese note..." />
+          </label>
           <label>
             <span>Scenario</span>
             <select data-category-filter>
@@ -223,6 +227,22 @@
           </label>
         </div>
         <div class="vault-list" data-vault-list></div>
+      </section>
+
+      <section class="section records-section" id="records">
+        <div class="section-copy">
+          <p class="eyebrow">Local records</p>
+          <h2>Back up your study notebook.</h2>
+          <p>Export your local dictation, status, saved phrases, reflections, and AI feedback as a JSON file.</p>
+        </div>
+        <div class="records-panel">
+          <button type="button" data-record-export>Export records</button>
+          <label class="import-button">
+            <input data-record-import type="file" accept="application/json,.json" />
+            <span>Import records</span>
+          </label>
+          <span data-record-status>Your records stay in this browser unless you export them.</span>
+        </div>
       </section>
     </main>
 

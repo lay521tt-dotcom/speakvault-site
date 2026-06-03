@@ -23,7 +23,7 @@ The shareable V1 can also be used by family and friends, but it does not include
 V1 includes:
 
 - a scenario-first listening library with at least 20 original training items;
-- scenario and difficulty filters for the library;
+- search, scenario, and difficulty filters for the library;
 - audio slots that become native audio players when `audioSrc` is present;
 - passage-level dictation textarea for the full 1-3 minute clip;
 - local browser saving for selected clip, dictation notes, practice status, reflection, phrase vault choices, and AI feedback;
@@ -31,6 +31,7 @@ V1 includes:
 - expression mining cards with save-to-vault buttons;
 - phrase vault populated from saved expressions across the library, with scenario filtering;
 - a shadowing target line and reflection area;
+- local JSON export/import for backing up the study notebook;
 - a Vercel serverless API for Claude writing feedback, protected by a shared access code.
 
 V1 does not include login, database sync, uploads, speech scoring, pronunciation correction, realtime voice, user management, or content licensing workflow.

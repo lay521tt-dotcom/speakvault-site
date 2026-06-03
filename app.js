@@ -80,6 +80,7 @@ function normalizeRecord(value) {
       difficulty: value.filters?.difficulty || "all",
       vault: value.filters?.vault || "all",
       search: value.filters?.search || "",
+      status: value.filters?.status || "all",
     },
     items: value.items || {},
   };
@@ -115,6 +116,17 @@ function itemRecord(itemId = currentItem?.id) {
   return record.items[itemId];
 }
 
+function itemRecordSnapshot(itemId) {
+  const saved = record.items?.[itemId] || {};
+  return {
+    dictation: saved.dictation || {},
+    savedExpressions: saved.savedExpressions || [],
+    reflection: saved.reflection || "",
+    status: saved.status || "not-started",
+    aiFeedback: saved.aiFeedback || null,
+  };
+}
+
 function setText(selector, value) {
   const element = document.querySelector(selector);
   if (element) element.textContent = value;
@@ -131,8 +143,10 @@ function uniqueValues(key) {
 function filteredItems() {
   const search = record.filters.search.trim().toLowerCase();
   return items.filter((item) => {
+    const saved = itemRecordSnapshot(item.id);
     const categoryMatch = record.filters.category === "all" || item.category === record.filters.category;
     const difficultyMatch = record.filters.difficulty === "all" || (item.difficulty || item.level) === record.filters.difficulty;
+    const statusMatch = record.filters.status === "all" || saved.status === record.filters.status;
     const searchText = [
       item.title,
       item.category,
@@ -155,7 +169,7 @@ function filteredItems() {
       .join(" ")
       .toLowerCase();
     const searchMatch = !search || searchText.includes(search);
-    return categoryMatch && difficultyMatch && searchMatch;
+    return categoryMatch && difficultyMatch && statusMatch && searchMatch;
   });
 }
 
@@ -168,12 +182,24 @@ function renderSelectOptions(selector, values, allLabel, currentValue) {
   select.value = values.includes(currentValue) ? currentValue : "all";
 }
 
+function renderStatusFilterOptions(currentValue) {
+  const select = document.querySelector("[data-status-filter]");
+  if (!select) return;
+  const values = Object.keys(statusLabels);
+  select.innerHTML = [`<option value="all">All progress</option>`]
+    .concat(values.map((value) => `<option value="${escapeHtml(value)}">${escapeHtml(statusLabels[value])}</option>`))
+    .join("");
+  select.value = values.includes(currentValue) ? currentValue : "all";
+}
+
 function setupFilters() {
   renderSelectOptions("[data-category-filter]", uniqueValues("category"), "All scenarios", record.filters.category);
   renderSelectOptions("[data-difficulty-filter]", uniqueValues("difficulty"), "All levels", record.filters.difficulty);
+  renderStatusFilterOptions(record.filters.status);
 
   const categoryFilter = document.querySelector("[data-category-filter]");
   const difficultyFilter = document.querySelector("[data-difficulty-filter]");
+  const statusFilter = document.querySelector("[data-status-filter]");
   const searchFilter = document.querySelector("[data-library-search]");
   const resetFilters = document.querySelector("[data-reset-filters]");
 
@@ -202,11 +228,20 @@ function setupFilters() {
     };
   }
 
+  if (statusFilter) {
+    statusFilter.onchange = () => {
+      record.filters.status = statusFilter.value;
+      saveRecord();
+      renderLibrary();
+    };
+  }
+
   if (resetFilters) {
     resetFilters.onclick = () => {
       record.filters.category = "all";
       record.filters.difficulty = "all";
       record.filters.search = "";
+      record.filters.status = "all";
       setupFilters();
       renderLibrary();
       saveRecord();
@@ -251,6 +286,7 @@ function renderStatusButtons() {
       saveRecord();
       renderStatusButtons();
       renderLibrary();
+      renderProgressSummary();
     };
   });
 }
@@ -275,6 +311,7 @@ function renderCurrentItem(item) {
   renderExpressions(item);
   renderAiFeedback();
   renderVault();
+  renderProgressSummary();
 
   const reflection = document.querySelector("[data-reflection-input]");
   if (reflection) {
@@ -284,6 +321,51 @@ function renderCurrentItem(item) {
       saveRecord();
     };
   }
+}
+
+function progressStats() {
+  const itemRecords = items.map((item) => itemRecordSnapshot(item.id));
+  const started = itemRecords.filter((saved) => saved.status !== "not-started").length;
+  const checked = itemRecords.filter((saved) => ["checked", "shadowed"].includes(saved.status)).length;
+  const shadowed = itemRecords.filter((saved) => saved.status === "shadowed").length;
+  const savedPhrases = itemRecords.reduce((total, saved) => total + (saved.savedExpressions || []).length, 0);
+  const aiFeedback = itemRecords.filter((saved) => saved.aiFeedback).length;
+
+  return { total: items.length, started, checked, shadowed, savedPhrases, aiFeedback };
+}
+
+function renderProgressSummary() {
+  const target = document.querySelector("[data-progress-summary]");
+  if (!target) return;
+  const stats = progressStats();
+  const completion = stats.total ? Math.round((stats.shadowed / stats.total) * 100) : 0;
+
+  target.innerHTML = `
+    <article>
+      <span>Started</span>
+      <strong>${stats.started}/${stats.total}</strong>
+    </article>
+    <article>
+      <span>Checked</span>
+      <strong>${stats.checked}</strong>
+    </article>
+    <article>
+      <span>Shadowed</span>
+      <strong>${stats.shadowed}</strong>
+    </article>
+    <article>
+      <span>Vault phrases</span>
+      <strong>${stats.savedPhrases}</strong>
+    </article>
+    <article>
+      <span>AI feedback</span>
+      <strong>${stats.aiFeedback}</strong>
+    </article>
+    <article>
+      <span>Completion</span>
+      <strong>${completion}%</strong>
+    </article>
+  `;
 }
 
 function renderLibrary() {
@@ -303,7 +385,7 @@ function renderLibrary() {
 
   target.innerHTML = visibleItems
     .map((item) => {
-      const saved = itemRecord(item.id);
+      const saved = itemRecordSnapshot(item.id);
       const isActive = currentItem?.id === item.id;
       return `
         <article class="library-card ${isActive ? "is-current" : ""}">
@@ -373,6 +455,7 @@ function renderDictation(item) {
       saveRecord();
       renderStatusButtons();
       renderLibrary();
+      renderProgressSummary();
     });
   });
 }
@@ -402,6 +485,7 @@ function renderSubtitles(item) {
         saveRecord();
         renderStatusButtons();
         renderLibrary();
+        renderProgressSummary();
       }
     });
   });
@@ -426,6 +510,7 @@ function toggleExpression(expression) {
   saveRecord();
   renderExpressions(currentItem);
   renderVault();
+  renderProgressSummary();
 }
 
 function renderExpressions(item) {
@@ -640,6 +725,7 @@ function bindAiControls() {
       itemRecord().aiFeedback = data.feedback;
       saveRecord();
       renderAiFeedback();
+      renderProgressSummary();
       status.textContent = "Feedback saved locally with this listening item.";
     } catch (error) {
       status.textContent = error.message || "AI feedback is unavailable right now.";

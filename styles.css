@@ -284,6 +284,36 @@ blockquote {
   border-top: 1px solid var(--line);
 }
 
+.progress-strip {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(0, 1fr));
+  gap: 12px;
+  padding: 0 0 48px;
+}
+
+.progress-strip article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: rgba(255, 250, 246, 0.72);
+}
+
+.progress-strip span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--plum);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.progress-strip strong {
+  color: var(--ink);
+  font-size: 26px;
+  line-height: 1;
+}
+
 .section-copy {
   max-width: 760px;
   margin-bottom: 30px;
@@ -832,6 +862,7 @@ button:disabled {
   .workspace-hero,
   .loop-grid,
   .library-grid,
+  .progress-strip,
   .expression-grid,
   .ai-feedback,
   .shadowing-panel,
@@ -858,6 +889,11 @@ button:disabled {
 
   .workspace-hero {
     padding: 46px 0 52px;
+  }
+
+  .progress-strip {
+    gap: 10px;
+    padding-bottom: 36px;
   }
 
   h1 {

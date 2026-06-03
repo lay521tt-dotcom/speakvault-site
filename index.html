@@ -84,6 +84,8 @@
         </article>
       </section>
 
+      <section class="progress-strip" aria-label="Study progress" data-progress-summary></section>
+
       <section class="section library-section" id="library">
         <div class="section-copy">
           <p class="eyebrow">Listening library</p>
@@ -105,6 +107,12 @@
             <span>Difficulty</span>
             <select data-difficulty-filter>
               <option value="all">All levels</option>
+            </select>
+          </label>
+          <label>
+            <span>Progress</span>
+            <select data-status-filter>
+              <option value="all">All progress</option>
             </select>
           </label>
           <button type="button" data-reset-filters>Reset</button>

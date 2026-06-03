@@ -23,7 +23,8 @@ The shareable V1 can also be used by family and friends, but it does not include
 V1 includes:
 
 - a scenario-first listening library with at least 20 original training items;
-- search, scenario, and difficulty filters for the library;
+- search, scenario, difficulty, and practice-status filters for the library;
+- a lightweight progress summary for started, checked, shadowed, saved phrases, and AI feedback count;
 - audio slots that become native audio players when `audioSrc` is present;
 - passage-level dictation textarea for the full 1-3 minute clip;
 - local browser saving for selected clip, dictation notes, practice status, reflection, phrase vault choices, and AI feedback;

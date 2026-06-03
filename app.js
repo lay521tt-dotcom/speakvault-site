@@ -1,4 +1,5 @@
 const storageKey = "speakvault-listening-record-v3";
+const storageMirrorKey = "speakvault-listening-record-v3-mirror";
 const previousStorageKeys = ["speakvault-listening-record-v2", "speakvault-listening-record-v1"];
 const accessCodeKey = "speakvault-access-code";
 const backupMetaKey = "speakvault-backup-meta-v1";
@@ -53,21 +54,26 @@ const statusLabels = {
 
 let items = [];
 let currentItem;
+let recordSource = "fresh";
 let record = loadRecord();
 
 function loadRecord() {
-  try {
-    const nextRecord = JSON.parse(localStorage.getItem(storageKey));
-    if (nextRecord?.items) return normalizeRecord(nextRecord);
+  const candidates = [storageKey, storageMirrorKey, ...previousStorageKeys];
 
-    for (const key of previousStorageKeys) {
-      const oldRecord = JSON.parse(localStorage.getItem(key));
-      if (oldRecord && typeof oldRecord === "object") {
-        return normalizeRecord({ selectedItemId: oldRecord.selectedItemId || "", items: oldRecord.items || oldRecord });
+  for (const key of candidates) {
+    try {
+      const stored = JSON.parse(localStorage.getItem(key));
+      if (stored?.items) {
+        recordSource = key === storageKey ? "primary" : key === storageMirrorKey ? "mirror" : "legacy";
+        return normalizeRecord(stored);
       }
+      if (stored && typeof stored === "object" && key !== storageKey && key !== storageMirrorKey) {
+        recordSource = "legacy";
+        return normalizeRecord({ selectedItemId: stored.selectedItemId || "", items: stored.items || stored });
+      }
+    } catch {
+      // Try the next local record source before starting fresh.
     }
-  } catch {
-    return normalizeRecord({});
   }
 
   return normalizeRecord({});
@@ -90,7 +96,10 @@ function normalizeRecord(value) {
 
 function saveRecord() {
   record.updatedAt = new Date().toISOString();
-  localStorage.setItem(storageKey, JSON.stringify(record));
+  const serialized = JSON.stringify(record);
+  localStorage.setItem(storageKey, serialized);
+  localStorage.setItem(storageMirrorKey, serialized);
+  recordSource = "primary";
   renderRecordSafetyStatus();
 }
 
@@ -796,6 +805,12 @@ function renderRecordSafetyStatus() {
       : counts.practisedItems
         ? "Export a backup today to protect this notebook."
         : "Start practising, then export your first backup.";
+  const sourceLabels = {
+    primary: "Primary save",
+    mirror: "Recovered from local mirror",
+    legacy: "Migrated from older save",
+    fresh: "Fresh notebook",
+  };
 
   target.className = `record-safety ${backupTone}`;
   target.innerHTML = `
@@ -810,6 +825,10 @@ function renderRecordSafetyStatus() {
     <article>
       <span>Saved data</span>
       <strong>${counts.practisedItems} clips · ${counts.dictations} dictations · ${counts.phrases} phrases</strong>
+    </article>
+    <article>
+      <span>Record source</span>
+      <strong>${escapeHtml(sourceLabels[recordSource] || "Primary save")}</strong>
     </article>
     <article>
       <span>Data safety</span>
@@ -841,6 +860,7 @@ function bindRecordControls() {
         version: 1,
         exportedAt: new Date().toISOString(),
         storageKey,
+        storageMirrorKey,
         record: normalizeRecord(record),
       };
       const date = new Date().toISOString().slice(0, 10);

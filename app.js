@@ -91,16 +91,19 @@ function normalizeRecord(value) {
       status: value.filters?.status || "all",
     },
     items: value.items || {},
+    sessions: Array.isArray(value.sessions) ? value.sessions : [],
   };
 }
 
-function saveRecord() {
+function saveRecord(options = {}) {
+  if (options.captureSession) capturePracticeSession();
   record.updatedAt = new Date().toISOString();
   const serialized = JSON.stringify(record);
   localStorage.setItem(storageKey, serialized);
   localStorage.setItem(storageMirrorKey, serialized);
   recordSource = "primary";
   renderRecordSafetyStatus();
+  if (options.captureSession) renderSessionHistory();
 }
 
 function backupMeta() {
@@ -169,6 +172,38 @@ function itemRecordSnapshot(itemId) {
     status: saved.status || "not-started",
     aiFeedback: saved.aiFeedback || null,
   };
+}
+
+function todayKey() {
+  return new Date().toISOString().slice(0, 10);
+}
+
+function capturePracticeSession(item = currentItem) {
+  if (!item) return;
+  record.sessions ||= [];
+  const saved = itemRecordSnapshot(item.id);
+  const now = new Date().toISOString();
+  const date = todayKey();
+  const nextSession = {
+    id: `${date}:${item.id}`,
+    date,
+    updatedAt: now,
+    itemId: item.id,
+    itemTitle: item.title,
+    category: item.category,
+    difficulty: item.difficulty || item.level,
+    status: saved.status,
+    dictation: savedPassageDictation(saved.dictation || {}),
+    reflection: saved.reflection || "",
+    savedExpressions: saved.savedExpressions || [],
+    aiFeedback: saved.aiFeedback || null,
+  };
+  const existingIndex = record.sessions.findIndex((session) => session.id === nextSession.id);
+  if (existingIndex >= 0) {
+    record.sessions[existingIndex] = nextSession;
+  } else {
+    record.sessions.push(nextSession);
+  }
 }
 
 function setText(selector, value) {
@@ -327,7 +362,7 @@ function renderStatusButtons() {
     button.setAttribute("aria-pressed", String(isCurrent));
     button.onclick = () => {
       itemRecord().status = button.dataset.statusButton;
-      saveRecord();
+      saveRecord({ captureSession: true });
       renderStatusButtons();
       renderLibrary();
       renderProgressSummary();
@@ -362,7 +397,7 @@ function renderCurrentItem(item) {
     reflection.value = itemRecord().reflection || "";
     reflection.oninput = () => {
       itemRecord().reflection = reflection.value;
-      saveRecord();
+      saveRecord({ captureSession: true });
     };
   }
 }
@@ -496,7 +531,7 @@ function renderDictation(item) {
     input.addEventListener("input", () => {
       itemRecord().dictation[input.dataset.dictationInput] = input.value;
       if (itemRecord().status === "not-started") itemRecord().status = "dictating";
-      saveRecord();
+      saveRecord({ captureSession: true });
       renderStatusButtons();
       renderLibrary();
       renderProgressSummary();
@@ -526,7 +561,7 @@ function renderSubtitles(item) {
     details.addEventListener("toggle", () => {
       if (details.open && ["not-started", "dictating"].includes(itemRecord().status)) {
         itemRecord().status = "checked";
-        saveRecord();
+        saveRecord({ captureSession: true });
         renderStatusButtons();
         renderLibrary();
         renderProgressSummary();
@@ -551,7 +586,7 @@ function toggleExpression(expression) {
       category: currentItem.category,
     });
   }
-  saveRecord();
+  saveRecord({ captureSession: true });
   renderExpressions(currentItem);
   renderVault();
   renderProgressSummary();
@@ -767,7 +802,7 @@ function bindAiControls() {
       const data = await readJsonResponse(response);
       if (!response.ok) throw new Error(data.error || "AI feedback is unavailable.");
       itemRecord().aiFeedback = data.feedback;
-      saveRecord();
+      saveRecord({ captureSession: true });
       renderAiFeedback();
       renderProgressSummary();
       status.textContent = "Feedback saved locally with this listening item.";
@@ -786,6 +821,7 @@ function recordCounts() {
     dictations: savedItems.filter((saved) => savedPassageDictation(saved.dictation || {}).trim()).length,
     phrases: savedItems.reduce((total, saved) => total + (saved.savedExpressions || []).length, 0),
     feedback: savedItems.filter((saved) => saved.aiFeedback).length,
+    sessions: (record.sessions || []).length,
   };
 }
 
@@ -824,7 +860,7 @@ function renderRecordSafetyStatus() {
     </article>
     <article>
       <span>Saved data</span>
-      <strong>${counts.practisedItems} clips · ${counts.dictations} dictations · ${counts.phrases} phrases</strong>
+      <strong>${counts.sessions} sessions · ${counts.practisedItems} clips · ${counts.dictations} dictations · ${counts.phrases} phrases</strong>
     </article>
     <article>
       <span>Record source</span>
@@ -834,6 +870,47 @@ function renderRecordSafetyStatus() {
       <span>Data safety</span>
       <strong>${escapeHtml(backupMessage)}</strong>
     </article>
+  `;
+}
+
+function sortedSessions() {
+  return [...(record.sessions || [])].sort((a, b) => String(b.updatedAt || b.date).localeCompare(String(a.updatedAt || a.date)));
+}
+
+function renderSessionHistory() {
+  const target = document.querySelector("[data-session-history]");
+  if (!target) return;
+  const sessions = sortedSessions().slice(0, 8);
+
+  if (!sessions.length) {
+    target.innerHTML = `
+      <article class="empty-vault">
+        <strong>No dated practice history yet.</strong>
+        <p>Start typing a dictation or reflection, and today's session will be saved automatically.</p>
+      </article>
+    `;
+    return;
+  }
+
+  target.innerHTML = `
+    <div class="section-copy compact-copy">
+      <p class="eyebrow">Practice history</p>
+      <h2>Recent saved sessions.</h2>
+    </div>
+    <div class="session-list">
+      ${sessions
+        .map(
+          (session) => `
+            <article>
+              <span class="status saved">${escapeHtml(session.date)}</span>
+              <strong>${escapeHtml(session.itemTitle)}</strong>
+              <p>${escapeHtml(statusLabels[session.status] || session.status || "Not started")} · ${escapeHtml(session.category || "Uncategorised")} · ${escapeHtml(session.difficulty || "")}</p>
+              <small>${escapeHtml((session.dictation || "").trim() ? "Dictation saved" : "No dictation yet")} · ${escapeHtml(session.reflection ? "Reflection saved" : "No reflection yet")} · ${(session.savedExpressions || []).length} phrases</small>
+            </article>
+          `,
+        )
+        .join("")}
+    </div>
   `;
 }
 
@@ -925,6 +1002,7 @@ function bindRecordControls() {
         const selected = sourceForItem(record.selectedItemId) || currentItem || items[0];
         renderCurrentItem(selected);
         renderRecordSafetyStatus();
+        renderSessionHistory();
         if (status) status.textContent = "Records imported into this browser.";
       } catch {
         if (status) status.textContent = "Import failed. Please choose a SpeakVault JSON backup file.";
@@ -935,6 +1013,7 @@ function bindRecordControls() {
   }
 
   renderRecordSafetyStatus();
+  renderSessionHistory();
 }
 
 async function loadItems() {

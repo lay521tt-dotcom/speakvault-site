@@ -766,6 +766,47 @@ button:disabled {
   background: #f1f3ed;
 }
 
+.session-history {
+  margin-top: 34px;
+}
+
+.compact-copy {
+  margin-bottom: 16px;
+}
+
+.session-list {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.session-list article {
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  padding: 16px;
+  background: var(--panel);
+  box-shadow: 0 16px 44px var(--shadow);
+}
+
+.session-list strong {
+  display: block;
+  margin-bottom: 10px;
+  color: var(--ink);
+  font-size: 17px;
+  line-height: 1.2;
+}
+
+.session-list p,
+.session-list small {
+  color: var(--muted);
+  font-weight: 800;
+  line-height: 1.45;
+}
+
+.session-list p {
+  margin-bottom: 12px;
+}
+
 .access-code-box {
   display: grid;
   gap: 8px;
@@ -904,6 +945,7 @@ button:disabled {
   .library-grid,
   .progress-strip,
   .record-safety,
+  .session-list,
   .expression-grid,
   .ai-feedback,
   .shadowing-panel,

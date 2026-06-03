@@ -920,22 +920,34 @@ function recordCounts() {
   };
 }
 
+function backupStatus() {
+  const counts = recordCounts();
+  const lastSaved = record.updatedAt || "";
+  const lastExported = backupMeta().lastExportedAt || "";
+  const hasPractice = counts.practisedItems > 0 || counts.sessions > 0 || counts.dictations > 0;
+  const hasUnbackedChanges = Boolean(lastSaved && (!lastExported || new Date(lastSaved) > new Date(lastExported)));
+  const isOldBackup = daysSince(lastExported) > 7;
+  const needsBackup = hasPractice && (hasUnbackedChanges || isOldBackup);
+
+  let message = "Start practising, then export your first backup.";
+  if (hasPractice && !lastExported) message = "Export your first backup today.";
+  if (hasPractice && lastExported && hasUnbackedChanges) message = "New records are not backed up yet.";
+  if (hasPractice && lastExported && !hasUnbackedChanges && isOldBackup) message = "Backup is older than 7 days.";
+  if (hasPractice && lastExported && !needsBackup) message = "All saved records are backed up.";
+
+  return { needsBackup, message, lastSaved, lastExported };
+}
+
 function renderRecordSafetyStatus() {
   const target = document.querySelector("[data-record-safety]");
   if (!target) return;
 
-  const meta = backupMeta();
   const counts = recordCounts();
-  const lastSaved = record.updatedAt || "";
-  const lastExported = meta.lastExportedAt || "";
-  const backupAge = daysSince(lastExported);
-  const backupTone = backupAge <= 7 ? "is-safe" : "needs-backup";
-  const backupMessage =
-    backupAge <= 7
-      ? "Backup is recent."
-      : counts.practisedItems
-        ? "Export a backup today to protect this notebook."
-        : "Start practising, then export your first backup.";
+  const safety = backupStatus();
+  const lastSaved = safety.lastSaved;
+  const lastExported = safety.lastExported;
+  const backupTone = safety.needsBackup ? "needs-backup" : "is-safe";
+  const backupMessage = safety.message;
   const sourceLabels = {
     primary: "Primary save",
     mirror: "Recovered from local mirror",
@@ -1014,8 +1026,7 @@ function renderSessionHistory() {
 }
 
 function backupIsOverdue() {
-  const counts = recordCounts();
-  return counts.practisedItems > 0 && daysSince(backupMeta().lastExportedAt) > 7;
+  return backupStatus().needsBackup;
 }
 
 function bindBackupReminder() {

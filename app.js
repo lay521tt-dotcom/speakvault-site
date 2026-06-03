@@ -226,6 +226,54 @@ function savePracticeCheckpoint(item = currentItem) {
   return true;
 }
 
+function uniqueExpressions(expressions = []) {
+  const seen = new Set();
+  return expressions.filter((expression) => {
+    const key = `${expression.text || ""}:${expression.tag || ""}:${expression.itemId || ""}`;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
+
+function mergeItemRecord(current = {}, incoming = {}) {
+  return {
+    dictation: { ...(incoming.dictation || {}), ...(current.dictation || {}) },
+    savedExpressions: uniqueExpressions([...(incoming.savedExpressions || []), ...(current.savedExpressions || [])]),
+    reflection: current.reflection || incoming.reflection || "",
+    status: current.status && current.status !== "not-started" ? current.status : incoming.status || "not-started",
+    aiFeedback: current.aiFeedback || incoming.aiFeedback || null,
+  };
+}
+
+function mergeSessions(currentSessions = [], incomingSessions = []) {
+  const byId = new Map();
+  [...incomingSessions, ...currentSessions].forEach((session) => {
+    if (!session?.id) return;
+    byId.set(session.id, session);
+  });
+  return [...byId.values()].sort((a, b) => String(a.updatedAt || a.date).localeCompare(String(b.updatedAt || b.date)));
+}
+
+function mergeRecords(currentRecord, incomingRecord) {
+  const current = normalizeRecord(currentRecord);
+  const incoming = normalizeRecord(incomingRecord);
+  const itemIds = new Set([...Object.keys(incoming.items || {}), ...Object.keys(current.items || {})]);
+  const mergedItems = {};
+
+  itemIds.forEach((itemId) => {
+    mergedItems[itemId] = mergeItemRecord(current.items[itemId], incoming.items[itemId]);
+  });
+
+  return normalizeRecord({
+    selectedItemId: current.selectedItemId || incoming.selectedItemId,
+    updatedAt: current.updatedAt || incoming.updatedAt,
+    filters: current.filters,
+    items: mergedItems,
+    sessions: mergeSessions(current.sessions, incoming.sessions),
+  });
+}
+
 function setText(selector, value) {
   const element = document.querySelector(selector);
   if (element) element.textContent = value;
@@ -1024,9 +1072,9 @@ function bindRecordControls() {
         const data = JSON.parse(await file.text());
         const importedRecord = data.record || data;
         if (!importedRecord || typeof importedRecord !== "object") throw new Error("Invalid backup file.");
-        const shouldReplace = window.confirm("Import this SpeakVault backup and replace records in this browser?");
-        if (!shouldReplace) return;
-        record = normalizeRecord(importedRecord);
+        const shouldImport = window.confirm("Import this SpeakVault backup and merge it with records in this browser?");
+        if (!shouldImport) return;
+        record = mergeRecords(record, importedRecord);
         saveRecord();
         saveBackupMeta({ lastImportedAt: new Date().toISOString() });
         setupFilters();
@@ -1034,7 +1082,7 @@ function bindRecordControls() {
         renderCurrentItem(selected);
         renderRecordSafetyStatus();
         renderSessionHistory();
-        if (status) status.textContent = "Records imported into this browser.";
+        if (status) status.textContent = "Backup merged into this browser. Existing local records were preserved.";
       } catch {
         if (status) status.textContent = "Import failed. Please choose a SpeakVault JSON backup file.";
       } finally {
